@@ -31,7 +31,7 @@ namespace WebApplication1.Controllers
                 ViewBag.Password = Request.Cookies["Password"].Value;
             }
 
-            var clientId = "236329445042-ao0n55mptkk6fftaeu8mactg13feu683.apps.googleusercontent.com";
+            var clientId = "714205971010-s2197pqs6q6j6uujjqnqan8em03m8fdv.apps.googleusercontent.com";
             var url = "https://localhost:44354/User/LoginGoogle";  // Đảm bảo URL này là chính xác.
             string response = GenerateGoogleOAuthUrl(clientId, url);
             ViewBag.response = response;
@@ -126,8 +126,8 @@ namespace WebApplication1.Controllers
         public async Task<ActionResult> LoginGoogle(string code, string scope, string authuser, string prompt)
         {
             string redirectUri = "https://localhost:44354/User/LoginGoogle";
-            var clientID = "236329445042-ao0n55mptkk6fftaeu8mactg13feu683.apps.googleusercontent.com";
-            var clientSecret = "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";
+            var clientID = "714205971010-s2197pqs6q6j6uujjqnqan8em03m8fdv.apps.googleusercontent.com";
+            var clientSecret = "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";
 
             if (string.IsNullOrEmpty(code))
             {

@@ -1,48 +1,429 @@
 ﻿@model IEnumerable<WebApplication1.Models.NHANVIEN>
 @{
-    ViewBag.Title = "DanhSachNhanVien";
+    ViewBag.Title = "Danh Sách Nhân Viên";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2>Danh sách nhân viên</h2>
+<style type="text/css">
+    /* Reset và Base Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-<p>
-    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModal">
-        Create New
-    </button>
-</p>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8f9fa;
+        color: #343a40;
+        line-height: 1.6;
+        position: relative;
+    }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Mã nhân viên</th>
-            <th>Tên nhân viên</th>
-            <th>Chức vụ</th>
-            <th>Hành động</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.MaNV)</td>
-                <td>@Html.DisplayFor(modelItem => item.HoTen)</td>
-                <td>@Html.DisplayFor(modelItem => item.ChucVu)</td>
-                <td>
-                    <button class="btn btn-warning btn-sm">
-                        @Html.ActionLink("Edit", "Edit", new { maNV = item.MaNV })
-                    </button>
-                    <button class="btn btn-info btn-sm">
-                        @Html.ActionLink("Detail", "Chitietnhanvien", new { maNV = item.MaNV })
-                    </button>
-                    <button class="btn btn-danger btn-sm">
-                        @Html.ActionLink("Delete", "Delete", new { maNV = item.MaNV }, new { @class = "text-white" })
-                    </button>
-                </td>
-            </tr>
+        /* Hình nền khách sạn */
+        body:before {
+            content: '';
+            background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            z-index: -1;
         }
-    </tbody>
-</table>
+
+    /* Container cho nội dung */
+    .container, .container-fluid, main {
+        position: relative;
+    }
+
+    .content-wrapper {
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(5px);
+        margin: 20px auto;
+        position: relative;
+    }
+
+    /* Page header with hotel icon */
+    .page-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 25px;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 15px;
+    }
+
+    .hotel-icon {
+        background-color: #3498db;
+        color: white;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        margin-right: 15px;
+        box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+    }
+
+    /* Page title styling */
+    h2 {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin: 0;
+    }
+
+    /* Create button styling */
+    .btn-success {
+        background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-weight: 500;
+        box-shadow: 0 4px 6px rgba(46, 204, 113, 0.2);
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+        .btn-success:before {
+            content: '+';
+            margin-right: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .btn-success:hover {
+            background: linear-gradient(135deg, #27ae60 0%, #219653 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(46, 204, 113, 0.3);
+        }
+
+    /* Table styling */
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 2rem;
+        background-color: #fff;
+    }
+
+        .table thead {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+        }
+
+        .table th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .table tbody tr {
+            border-bottom: 1px solid #e9ecef;
+            transition: all 0.2s ease;
+        }
+
+            .table tbody tr:last-child {
+                border-bottom: none;
+            }
+
+            .table tbody tr:hover {
+                background-color: #f1f8ff;
+            }
+
+        .table td {
+            padding: 15px;
+            vertical-align: middle;
+        }
+
+    /* Action buttons styling */
+    .btn-sm {
+        padding: 6px 12px;
+        margin-right: 5px;
+        border-radius: 4px;
+        font-weight: 500;
+        font-size: 0.8rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border: none;
+    }
+
+    .btn-warning {
+        background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+    }
+
+        .btn-warning:hover {
+            background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(230, 126, 34, 0.3);
+        }
+
+    .btn-info {
+        background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    }
+
+        .btn-info:hover {
+            background: linear-gradient(135deg, #2980b9 0%, #21618c 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(41, 128, 185, 0.3);
+        }
+
+    .btn-danger {
+        background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    }
+
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #c0392b 0%, #a93226 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
+        }
+
+    /* Links inside buttons */
+    .btn-sm a {
+        color: white;
+        text-decoration: none;
+        display: block;
+    }
+
+    /* Modal styling */
+    .modal-content {
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+        background-image: url('https://images.unsplash.com/photo-1586611292717-f828b167408c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80');
+        background-size: cover;
+        background-position: center;
+    }
+
+        .modal-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            z-index: -1;
+        }
+
+    .modal-header {
+        background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        color: white;
+        padding: 15px 20px;
+        border-bottom: none;
+        position: relative;
+    }
+
+    .modal-title {
+        font-weight: 600;
+        font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+    }
+
+        .modal-title:before {
+            content: '\002B';
+            font-weight: bold;
+            margin-right: 10px;
+            background-color: rgba(255, 255, 255, 0.2);
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+    .modal-body {
+        padding: 20px;
+        position: relative;
+        z-index: 2;
+        background-color: rgba(255, 255, 255, 0.9);
+    }
+
+    .modal-footer {
+        padding: 15px 20px;
+        border-top: none;
+        justify-content: flex-end;
+        background-color: rgba(255, 255, 255, 0.9);
+        position: relative;
+        z-index: 2;
+    }
+
+    /* Form styling */
+    .form-label {
+        font-weight: 500;
+        color: #495057;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .form-control {
+        padding: 12px 15px;
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+        width: 100%;
+        margin-bottom: 5px;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+    }
+
+        .form-control:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+            outline: 0;
+        }
+
+    .mb-3 {
+        margin-bottom: 1.5rem !important;
+    }
+
+    /* Modal buttons */
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 5px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 5px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(52, 152, 219, 0.2);
+    }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #2980b9 0%, #21618c 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(52, 152, 219, 0.3);
+        }
+
+    /* Responsive adjustments */
+
+
+    /* Enhancement for a more professional look */
+    .table tbody tr td:first-child {
+        font-weight: 500;
+        color: #3498db;
+    }
+
+    /* Create a subtle striped effect for table rows */
+    .table tbody tr:nth-child(even) {
+        background-color: #f8f9fa;
+    }
+
+    /* Add a hover effect for the table headers */
+    .table th {
+        position: relative;
+        cursor: pointer;
+    }
+
+        .table th:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #fff;
+            transition: width 0.3s ease;
+        }
+
+        .table th:hover:after {
+            width: 100%;
+        }
+
+    /* Add some decoration to the buttons */
+    .btn-warning:before {
+        content: '✎';
+        margin-right: 5px;
+    }
+
+    .btn-info:before {
+        content: '👁';
+        margin-right: 5px;
+    }
+
+    .btn-danger:before {
+        content: '✕';
+        margin-right: 5px;
+    }
+</style>
+
+<div class="content-wrapper">
+    <div class="page-header">
+        <div class="hotel-icon">
+            <i class="fas fa-users"></i>
+        </div>
+        <h2>Danh sách nhân viên</h2>
+    </div>
+
+    <p>
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModal">
+            Thêm nhân viên mới
+        </button>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Mã nhân viên</th>
+                <th>Tên nhân viên</th>
+                <th>Chức vụ</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.MaNV)</td>
+                    <td>@Html.DisplayFor(modelItem => item.HoTen)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ChucVu)</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm">
+                            @Html.ActionLink("Edit", "Edit", new { maNV = item.MaNV })
+                        </button>
+                        <button class="btn btn-info btn-sm">
+                            @Html.ActionLink("Detail", "Chitietnhanvien", new { maNV = item.MaNV })
+                        </button>
+                        <button class="btn btn-danger btn-sm">
+                            @Html.ActionLink("Delete", "Delete", new { maNV = item.MaNV }, new { @class = "text-white" })
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
@@ -76,3 +457,6 @@
         </div>
     </div>
 </div>
+
+<!-- Add Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">

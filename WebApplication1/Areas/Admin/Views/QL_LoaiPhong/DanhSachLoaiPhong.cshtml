@@ -1,68 +1,108 @@
 ﻿@model IEnumerable<WebApplication1.Models.LOAIPHONG>
-
 @{
-    ViewBag.Title = "DanhSachLoaiPhong";
+    ViewBag.Title = "Quản Lý Loại Phòng";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2>Danh sách loại phòng</h2>
+<!-- Thêm Font Awesome và Google Fonts -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<p>
-    <button type="button" class="btn btn-create" data-bs-toggle="modal" data-bs-target="#createModal">
-        Create New
-    </button>
-</p>
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <div class="header-title">
+            <h2><i class="fas fa-bed"></i> Quản Lý Loại Phòng</h2>
+            <p>Quản lý các loại phòng trong hệ thống</p>
+        </div>
+        <div class="header-actions">
+            <button type="button" class="btn-create" data-bs-toggle="modal" data-bs-target="#createModal">
+                <i class="fas fa-plus"></i>
+                <span>Thêm Loại Phòng</span>
+            </button>
+        </div>
+    </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Mã loại</th>
-            <th>Tên loại</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.MaLoai)</td>
-                <td>@Html.DisplayFor(modelItem => item.TenLoai)</td>
-                <td>
-                    <!-- Edit and Delete buttons styled as btn -->
-                    <button class="btn btn-edit" onclick="window.location.href='@Url.Action("Edit", "QL_LoaiPhong", new { maLoai = item.MaLoai })'">
-                        Edit
-                    </button>
-                    |
-                    <button class="btn btn-delete" onclick="window.location.href='@Url.Action("Delete", "QL_LoaiPhong", new { maLoai = item.MaLoai })'">
-                        Delete
-                    </button>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+    <div class="content-card">
+        <div class="card-header">
+            <h3>Danh sách loại phòng</h3>
+            <div class="header-tools">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Tìm kiếm loại phòng...">
+                </div>
+            </div>
+        </div>
 
-<!-- Modal -->
-<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+        <div class="table-responsive">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Mã loại</th>
+                        <th>Tên loại</th>
+                        <th width="150">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td><span class="id-badge">@Html.DisplayFor(modelItem => item.MaLoai)</span></td>
+                            <td>@Html.DisplayFor(modelItem => item.TenLoai)</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn edit-btn" title="Chỉnh sửa"
+                                            onclick="window.location.href='@Url.Action("Edit", "QL_LoaiPhong", new { maLoai = item.MaLoai })'">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn delete-btn" title="Xóa"
+                                            onclick="confirmDelete('@item.MaLoai', '@item.TenLoai')">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pagination-container">
+            <div class="pagination-info">Hiển thị <span>1-@Model.Count()</span> trong số <span>@Model.Count()</span> loại phòng</div>
+            <div class="pagination-controls">
+                <button class="pagination-btn" disabled><i class="fas fa-chevron-left"></i></button>
+                <button class="pagination-btn active">1</button>
+                <button class="pagination-btn" disabled><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create Modal -->
+<div class="modal fade custom-modal" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="createModalLabel">Tạo mới Loại Phòng</h5>
+                <h5 class="modal-title" id="createModalLabel"><i class="fas fa-plus-circle"></i> Thêm Loại Phòng Mới</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                @using (Html.BeginForm("Create", "QL_LoaiPhong", FormMethod.Post))
+                @using (Html.BeginForm("Create", "QL_LoaiPhong", FormMethod.Post, new { @class = "styled-form" }))
                 {
-                    <div class="mb-3">
-                        <label for="MaLoai" class="form-label">Mã Loại</label>
-                        @Html.TextBox("MaLoai", null, new { @class = "form-control", id = "MaLoai" })
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="MaLoai" name="MaLoai" placeholder="Mã loại" required>
+                        <label for="MaLoai">Mã loại phòng</label>
                     </div>
-                    <div class="mb-3">
-                        <label for="TenLoai" class="form-label">Tên Loại</label>
-                        @Html.TextBox("TenLoai", null, new { @class = "form-control", id = "TenLoai" })
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="TenLoai" name="TenLoai" placeholder="Tên loại" required>
+                        <label for="TenLoai">Tên loại phòng</label>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                        <button type="submit" class="btn btn-primary">Lưu</button>
+                        <button type="button" class="btn-cancel" data-bs-dismiss="modal">
+                            <i class="fas fa-times"></i> Hủy
+                        </button>
+                        <button type="submit" class="btn-submit">
+                            <i class="fas fa-save"></i> Lưu lại
+                        </button>
                     </div>
                 }
             </div>
@@ -70,63 +110,477 @@
     </div>
 </div>
 
+<!-- Delete Confirmation Modal -->
+<div class="modal fade custom-modal" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header delete-header">
+                <h5 class="modal-title"><i class="fas fa-exclamation-triangle"></i> Xác nhận xóa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <p>Bạn có chắc chắn muốn xóa loại phòng <span id="deleteItemName" class="fw-bold"></span>?</p>
+                <p class="text-danger">Hành động này không thể hoàn tác!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-cancel" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Hủy
+                </button>
+                <a id="deleteConfirmBtn" href="#" class="btn-delete">
+                    <i class="fas fa-trash-alt"></i> Xóa
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script>
+    // Hàm xác nhận xóa
+    function confirmDelete(id, name) {
+        document.getElementById('deleteItemName').textContent = name + " (" + id + ")";
+        document.getElementById('deleteConfirmBtn').href = '@Url.Action("Delete", "QL_LoaiPhong")?maLoai=' + id;
+        new bootstrap.Modal(document.getElementById('deleteModal')).show();
+    }
+
+    // Script tìm kiếm
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        const tableRows = document.querySelectorAll('.data-table tbody tr');
+
+        searchInput.addEventListener('keyup', function() {
+            const searchText = this.value.toLowerCase();
+
+            tableRows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(searchText)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    });
+</script>
+
 <!-- Custom CSS -->
 <style>
-    /* Keep existing layout styles */
-    @@import url('https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css');
+    /* Base Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f5f7fa;
+        color: #333;
+    }
+
+    /* Dashboard Container */
+    .dashboard-container {
+        max-width: 1340px;
+        margin: 0 auto;
+        padding: 30px 20px;
+    }
+
+    /* Dashboard Header */
+    .dashboard-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .header-title h2 {
+        font-size: 28px;
+        font-weight: 600;
+        color: #2c3e50;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .header-title p {
+        margin: 5px 0 0;
+        color: #7f8c8d;
+        font-size: 14px;
+    }
+
+    .header-actions {
+        display: flex;
+        gap: 15px;
+    }
 
     .btn-create {
-        background-color: #1F4529;
+        background: linear-gradient(135deg, #4CAF50, #2E7D32);
         color: white;
         border: none;
+        border-radius: 8px;
+        padding: 12px 24px;
+        font-size: 15px;
+        font-weight: 500;
         cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(46, 125, 50, 0.2);
     }
 
         .btn-create:hover {
-            background-color: #155D29;
+            background: linear-gradient(135deg, #2E7D32, #1B5E20);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(46, 125, 50, 0.3);
         }
 
-    /* Style for Edit and Delete buttons */
-    .btn-edit {
-        background-color: #1F4529;
-        color: white;
-        border: none;
-        cursor: pointer;
+        .btn-create i {
+            font-size: 16px;
+        }
+
+    /* Content Card */
+    .content-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 25px rgba(0,0,0,0.05);
+        overflow: hidden;
+        margin-bottom: 30px;
     }
 
-    .btn-edit:hover {
-        background-color: #155D29;
+    .card-header {
+        padding: 20px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #edf2f7;
+        flex-wrap: wrap;
+        gap: 15px;
     }
+
+        .card-header h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+    .header-tools {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+    }
+
+    .search-box {
+        position: relative;
+        width: 250px;
+    }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+            .search-box input:focus {
+                border-color: #4CAF50;
+                box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+                outline: none;
+            }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0aec0;
+        }
+
+    /* Table Styles */
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .data-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .data-table th, .data-table td {
+            padding: 15px 25px;
+            text-align: left;
+        }
+
+        .data-table thead {
+            background-color: #f8fafc;
+        }
+
+        .data-table th {
+            font-weight: 600;
+            color: #475569;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #edf2f7;
+        }
+
+        .data-table tbody tr {
+            border-bottom: 1px solid #edf2f7;
+            transition: all 0.2s;
+        }
+
+            .data-table tbody tr:hover {
+                background-color: #f8fafc;
+            }
+
+            .data-table tbody tr:last-child {
+                border-bottom: none;
+            }
+
+    .id-badge {
+        background-color: #e2f1e3;
+        color: #2E7D32;
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .action-btn {
+        width: 35px;
+        height: 35px;
+        border-radius: 8px;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s;
+        color: white;
+    }
+
+    .edit-btn {
+        background: linear-gradient(135deg, #3498db, #2980b9);
+        box-shadow: 0 2px 10px rgba(41, 128, 185, 0.2);
+    }
+
+        .edit-btn:hover {
+            background: linear-gradient(135deg, #2980b9, #1a5276);
+            box-shadow: 0 4px 15px rgba(41, 128, 185, 0.3);
+            transform: translateY(-2px);
+        }
+
+    .delete-btn {
+        background: linear-gradient(135deg, #e74c3c, #c0392b);
+        box-shadow: 0 2px 10px rgba(231, 76, 60, 0.2);
+    }
+
+        .delete-btn:hover {
+            background: linear-gradient(135deg, #c0392b, #922b21);
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+            transform: translateY(-2px);
+        }
+
+    /* Pagination */
+    .pagination-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 30px;
+        border-top: 1px solid #edf2f7;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .pagination-info {
+        color: #718096;
+        font-size: 14px;
+    }
+
+        .pagination-info span {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+    .pagination-controls {
+        display: flex;
+        gap: 5px;
+    }
+
+    .pagination-btn {
+        min-width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #e2e8f0;
+        background: white;
+        color: #4a5568;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+        .pagination-btn:hover:not(:disabled) {
+            background-color: #f7fafc;
+            border-color: #cbd5e0;
+        }
+
+        .pagination-btn.active {
+            background-color: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+    /* Modal Styles */
+    .custom-modal .modal-content {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+
+    .custom-modal .modal-header {
+        background: linear-gradient(135deg, #4CAF50, #2E7D32);
+        color: white;
+        padding: 20px 30px;
+        border-bottom: none;
+    }
+
+    .custom-modal .delete-header {
+        background: linear-gradient(135deg, #e74c3c, #c0392b);
+    }
+
+    .custom-modal .modal-title {
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .custom-modal .btn-close {
+        color: white;
+        opacity: 1;
+        filter: brightness(5);
+    }
+
+    .custom-modal .modal-body {
+        padding: 25px 30px;
+    }
+
+    .custom-modal .modal-footer {
+        padding: 20px 30px;
+        border-top: none;
+    }
+
+    /* Form Styles */
+    .styled-form .form-floating {
+        position: relative;
+    }
+
+    .styled-form .form-control {
+        height: 55px;
+        padding: 1rem 0.75rem;
+        font-size: 15px;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        background-color: #f8fafc;
+        transition: all 0.3s;
+    }
+
+        .styled-form .form-control:focus {
+            border-color: #4CAF50;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+        }
+
+    .styled-form .form-floating label {
+        padding: 1rem 0.75rem;
+    }
+
+    /* Button Styles for Modal */
+    .btn-cancel {
+        background-color: #e2e8f0;
+        color: #4a5568;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-size: 15px;
+        font-weight: 500;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s;
+    }
+
+        .btn-cancel:hover {
+            background-color: #cbd5e0;
+        }
+
+    .btn-submit {
+        background: linear-gradient(135deg, #4CAF50, #2E7D32);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-size: 15px;
+        font-weight: 500;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s;
+        box-shadow: 0 4px 15px rgba(46, 125, 50, 0.2);
+    }
+
+        .btn-submit:hover {
+            background: linear-gradient(135deg, #2E7D32, #1B5E20);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(46, 125, 50, 0.3);
+        }
 
     .btn-delete {
-        background-color: #FF4D4D;
+        background: linear-gradient(135deg, #e74c3c, #c0392b);
         color: white;
         border: none;
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-size: 15px;
+        font-weight: 500;
         cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s;
+        box-shadow: 0 4px 15px rgba(231, 76, 60, 0.2);
+        text-decoration: none;
     }
 
-    .btn-delete:hover {
-        background-color: #E02A2A;
-    }
+        .btn-delete:hover {
+            background: linear-gradient(135deg, #c0392b, #922b21);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.3);
+            color: white;
+        }
 
-    /* Modal styling (if needed) */
-    .modal-content {
-        background-color: #fff;
-        border-radius: 10px;
-        border: 1px solid #ddd;
-    }
+    /* Responsive Adjustments */
 
-    .modal-header {
-        background-color: #1F4529;
-        color: white;
-    }
-
-    .modal-footer button {
-        background-color: #1F4529;
-        color: white;
-    }
-
-    .modal-footer button:hover {
-        background-color: #155D29;
-    }
 </style>

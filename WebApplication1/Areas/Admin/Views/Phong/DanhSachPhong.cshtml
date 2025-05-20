@@ -1,109 +1,284 @@
 ﻿@model IEnumerable<WebApplication1.Areas.PhongViewModel>
-
 @{
-    ViewBag.Title = "DanhSachPhong";
+    ViewBag.Title = "Danh Sách Phòng";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
     ViewBag.DiaChi = 1;
 }
 <style>
-    /* Layout for room list */
-    .phong-list {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Lưới tự động sắp xếp */
-        gap: 15px;
-        padding: 10px;
+    /* Global styles */
+    .room-management {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
     }
 
-    /* Styling for each room item */
-    .phong-item {
-        background-color: #f4f4f4; /* Màu nền mặc định của phòng */
-        border: 1px solid #ddd; /* Viền nhẹ */
-        border-radius: 8px;
-        padding: 15px;
-        text-align: center;
-        box-sizing: border-box;
-        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Hiệu ứng hover */
+    /* Page header */
+    .room-header {
         display: flex;
-        flex-direction: column;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
-        min-height: 150px; /* Đảm bảo chiều cao của các phòng đồng đều */
-        max-height: 200px; /* Đảm bảo chiều cao không vượt quá */
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #e1e1e1;
     }
 
-        /* Background color based on the room status */
-        .phong-item.trong {
-            background-color: #fefafa; /* Phòng trống (màu trắng nhạt) */
+    .room-title {
+        font-size: 24px;
+        font-weight: 600;
+        color: #2c3e50;
+        margin: 0;
+    }
+
+    /* Create new button */
+    .btn-add-room {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+
+        .btn-add-room:hover {
+            background-color: #3d8b40;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
         }
 
-        .phong-item.dadat {
-            background-color: #fdd0d0; /* Phòng đã đặt (màu đỏ nhạt) */
+        .btn-add-room i {
+            margin-right: 8px;
         }
 
-        .phong-item.dang-o {
-            background-color: #ff7878; /* Phòng đang có khách (màu đỏ đậm) */
+    /* Room grid layout */
+    .room-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+    }
+
+    /* Room card styling */
+    .room-card {
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+        position: relative;
+        height: 180px;
+    }
+
+        .room-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 16px rgba(0, 0, 0, 0.12);
         }
 
-        /* Styling for the link */
-        .phong-item a {
-            text-decoration: none; /* Xóa gạch dưới */
-            color: #333; /* Màu chữ */
+        .room-card a {
+            text-decoration: none;
+            color: inherit;
             display: flex;
-            justify-content: center;
-            align-items: center;
             flex-direction: column;
-            width: 100%;
             height: 100%;
         }
 
-        /* Hover effect for each room item */
-        .phong-item:hover {
-            transform: translateY(-5px); /* Di chuyển nhẹ khi hover */
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15); /* Bóng đổ mạnh mẽ khi hover */
-            cursor: pointer;
+        /* Room status colors */
+        .room-card.available {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-left: 5px solid #28a745;
         }
 
-        /* Styling for the room title (room number) */
-        .phong-item p {
-            margin: 5px 0; /* Thêm khoảng cách giữa các đoạn văn */
-            font-size: 14px; /* Kích thước chữ */
-            color: #555; /* Màu chữ */
+        .room-card.reserved {
+            background: linear-gradient(135deg, #fff5f5, #ffe8e8);
+            border-left: 5px solid #ffc107;
         }
 
-    /* Title for the page (Create New Button) */
-    .btn-primary {
-        margin-bottom: 20px; /* Khoảng cách dưới nút */
-        padding: 10px 20px; /* Kích thước nút */
-        font-size: 16px; /* Kích thước chữ trong nút */
-        background-color: #007bff; /* Màu nền nút */
-        border: none;
-        border-radius: 5px; /* Bo góc cho nút */
-        transition: background-color 0.3s ease; /* Hiệu ứng thay đổi màu nền khi hover */
+        .room-card.occupied {
+            background: linear-gradient(135deg, #ffeded, #ffdada);
+            border-left: 5px solid #dc3545;
+        }
+
+    /* Room card header */
+    .room-number {
+        background-color: rgba(0, 0, 0, 0.03);
+        padding: 12px 15px;
+        font-size: 18px;
+        font-weight: 600;
+        color: #343a40;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     }
 
-        /* Hover effect for the Create New Button */
-        .btn-primary:hover {
-            background-color: #0056b3; /* Màu nền khi hover */
+    /* Room card body */
+    .room-details {
+        padding: 15px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .room-detail-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+        color: #555;
+        font-size: 14px;
+    }
+
+        .room-detail-item i {
+            margin-right: 8px;
+            width: 18px;
+            text-align: center;
+            color: #6c757d;
         }
-s
+
+    /* Status indicators */
+    .status-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    .status-available {
+        background-color: rgba(40, 167, 69, 0.1);
+        color: #28a745;
+    }
+
+    .status-reserved {
+        background-color: rgba(255, 193, 7, 0.1);
+        color: #d39e00;
+    }
+
+    .status-occupied {
+        background-color: rgba(220, 53, 69, 0.1);
+        color: #dc3545;
+    }
+
+    /* Filter section */
+    .room-filters {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .filter-btn {
+        padding: 8px 15px;
+        border: none;
+        border-radius: 20px;
+        background-color: #e9ecef;
+        color: #495057;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+        .filter-btn:hover, .filter-btn.active {
+            background-color: #343a40;
+            color: white;
+        }
+
+    /* Responsive adjustments */
+
+
+    .room-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .btn-add-room {
+        margin-top: 15px;
+    }
+    }
 </style>
 
+<div class="room-management">
+    <div class="room-header">
+        <h2 class="room-title">Room Management</h2>
+        <a href="@Url.Action("Create", "Phong", new { area = "Admin" })" class="btn-add-room">
+            <i class="fas fa-plus-circle"></i> Add New Room
+        </a>
+    </div>
 
-<p>
-    <a href="@Url.Action("Create", "Phong", new { area = "Admin" })" class="btn btn-primary text-white">
-        Create New
-    </a>
-</p>
+    <div class="room-filters">
+        <button class="filter-btn active">All Rooms</button>
+        <button class="filter-btn">Available</button>
+        <button class="filter-btn">Reserved</button>
+        <button class="filter-btn">Occupied</button>
+    </div>
 
-<div class="phong-list">
-    @foreach (var phong in Model)
-    {
-        <div class="phong-item">
-            <a href="@Url.Action("Chitietphong", "Phong", new { MaPH = phong.MaPH })">
-                <p>Room: @phong.SoPH</p>
-                <p>Guests booked: @phong.SoLuongDaDat</p>
-                <p>Guests staying: @phong.SoLuongDangO</p>
-            </a>
-        </div>
-    }
+    <div class="room-grid">
+        @foreach (var phong in Model)
+        {
+            string roomClass = "available";
+            string statusText = "Available";
+            string statusBadgeClass = "status-available";
+
+            if (phong.SoLuongDaDat > 0 && phong.SoLuongDangO == 0)
+            {
+                roomClass = "reserved";
+                statusText = "Reserved";
+                statusBadgeClass = "status-reserved";
+            }
+            else if (phong.SoLuongDangO > 0)
+            {
+                roomClass = "occupied";
+                statusText = "Occupied";
+                statusBadgeClass = "status-occupied";
+            }
+
+            <div class="room-card @roomClass">
+                <a href="@Url.Action("Chitietphong", "Phong", new { MaPH = phong.MaPH })">
+                    <div class="room-number">Room @phong.SoPH</div>
+                    <div class="status-badge @statusBadgeClass">@statusText</div>
+                    <div class="room-details">
+                        <div class="room-detail-item">
+                            <i class="fas fa-bookmark"></i>
+                            <span>Booked: @phong.SoLuongDaDat guests</span>
+                        </div>
+                        <div class="room-detail-item">
+                            <i class="fas fa-user-check"></i>
+                            <span>Staying: @phong.SoLuongDangO guests</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
 </div>
+
+<script>
+    // Simple filter functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const roomCards = document.querySelectorAll('.room-card');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Update active button
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+
+                const filter = this.textContent.trim().toLowerCase();
+
+                // Show/hide rooms based on filter
+                roomCards.forEach(card => {
+                    if (filter === 'all rooms') {
+                        card.style.display = 'block';
+                    } else {
+                        if (card.classList.contains(filter)) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    }
+                });
+            });
+        });
+    });
+</script>

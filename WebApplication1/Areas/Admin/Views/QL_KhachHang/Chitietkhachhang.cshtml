@@ -189,5 +189,415 @@
     a.btn:hover {
         text-decoration: none;
     }
+    /* Main Container Styling */
+    body {
+        background-color: #f9fafb;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Page Header */
+    h2 {
+        font-size: 28px;
+        font-weight: 700;
+        color: #2d3748;
+        margin-bottom: 25px;
+        position: relative;
+        padding-bottom: 15px;
+    }
+
+        h2:after {
+            content: '';
+            position: absolute;
+            left: a0;
+            bottom: 0;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, #4a00e0, #8e2de2);
+            border-radius: 2px;
+        }
+
+    /* Detail Container */
+    div > dl.dl-horizontal {
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        padding: 30px;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid #f0f0f0;
+    }
+
+    /* Horizontal Rule Styling */
+    hr {
+        border: 0;
+        height: 1px;
+        background: linear-gradient(to right, rgba(138, 43, 226, 0.1), rgba(138, 43, 226, 0.5), rgba(138, 43, 226, 0.1));
+        margin: 25px 0;
+    }
+
+    /* Definition List Styling */
+    .dl-horizontal {
+        display: grid;
+        grid-template-columns: minmax(150px, 1fr) 3fr;
+        gap: 20px 30px;
+    }
+
+        /* Term (Left Column) */
+        .dl-horizontal dt {
+            text-align: right;
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 15px;
+            padding: 15px 0;
+            position: relative;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-right: 2px solid #e2e8f0;
+            padding-right: 20px;
+        }
+
+        /* Data (Right Column) */
+        .dl-horizontal dd {
+            margin-left: 0;
+            font-size: 16px;
+            color: #2d3748;
+            padding: 15px 0;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+            /* Alternate Row Styling */
+            .dl-horizontal dt:nth-of-type(odd),
+            .dl-horizontal dd:nth-of-type(odd) {
+                background-color: #f8fafc;
+                border-radius: 8px;
+                padding-left: 15px;
+            }
+
+            /* Hover Effect */
+            .dl-horizontal dd:hover {
+                transform: translateX(5px);
+                color: #4a00e0;
+            }
+
+            /* Special Styling for Different Fields */
+            /* MaKH Field */
+            .dl-horizontal dt:first-of-type,
+            .dl-horizontal dd:first-of-type {
+                font-weight: 700;
+                color: #4a00e0;
+            }
+
+            /* Phone Number Field */
+            .dl-horizontal dt:nth-of-type(4),
+            .dl-horizontal dd:nth-of-type(4) {
+                font-family: 'Consolas', monospace;
+                letter-spacing: 1px;
+            }
+
+            /* Email Field */
+            .dl-horizontal dt:nth-of-type(9),
+            .dl-horizontal dd:nth-of-type(9) {
+                word-break: break-all;
+            }
+
+            /* Password Field */
+            .dl-horizontal dt:nth-of-type(12),
+            .dl-horizontal dd:nth-of-type(12) {
+                font-family: 'Consolas', monospace;
+                letter-spacing: 1px;
+            }
+
+            .dl-horizontal dd:nth-of-type(12) {
+                position: relative;
+            }
+
+                .dl-horizontal dd:nth-of-type(12):after {
+                    content: '•••••••••';
+                    position: absolute;
+                    font-size: 16px;
+                    letter-spacing: 2px;
+                }
+
+    /* Avatar Styling (if added later) */
+    .customer-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 60px;
+        object-fit: cover;
+        border: 3px solid #fff;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        margin: 0 auto 20px;
+        display: block;
+    }
+
+    /* Action Buttons Container */
+    p {
+        margin-top: 30px;
+        display: flex;
+        gap: 10px;
+    }
+
+    /* Button Styling */
+    .btn {
+        padding: 12px 24px;
+        font-size: 15px;
+        font-weight: 600;
+        border-radius: 8px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        border: none;
+    }
+
+    /* Primary Button - Edit */
+    .btn-primary {
+        background: linear-gradient(45deg, #4a00e0, #8e2de2);
+        color: white;
+        box-shadow: 0 4px 15px rgba(138, 43, 226, 0.3);
+    }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(138, 43, 226, 0.4);
+        }
+
+        .btn-primary:before {
+            content: "✏️ ";
+            margin-right: 8px;
+        }
+
+    /* Secondary Button - Back */
+    .btn-secondary {
+        background-color: #f7fafc;
+        color: #4a5568;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+        .btn-secondary:hover {
+            background-color: #edf2f7;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary:before {
+            content: "← ";
+            margin-right: 8px;
+        }
+
+    /* Button Ripple Effect */
+    .btn:after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 5px;
+        height: 5px;
+        background: rgba(255, 255, 255, 0.5);
+        opacity: 0;
+        border-radius: 100%;
+        transform: scale(1, 1) translate(-50%);
+        transform-origin: 50% 50%;
+    }
+
+    .btn:focus:not(:active)::after {
+        animation: ripple 1s ease-out;
+    }
+
+    /* Section Dividers */
+    .detail-section {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px dashed #e2e8f0;
+    }
+
+    /* Container Background Decoration */
+    div > dl.dl-horizontal:before {
+        content: '';
+        position: absolute;
+        top: -50px;
+        right: -50px;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: linear-gradient(45deg, rgba(138, 43, 226, 0.05), rgba(74, 0, 224, 0.05));
+        z-index: 0;
+    }
+
+    div > dl.dl-horizontal:after {
+        content: '';
+        position: absolute;
+        bottom: -50px;
+        left: -50px;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: linear-gradient(45deg, rgba(74, 0, 224, 0.05), rgba(138, 43, 226, 0.05));
+        z-index: 0;
+    }
+
+    /* Detail Card Header */
+    .detail-card-header {
+        background-color: #f0f4ff;
+        margin: -30px -30px 20px -30px;
+        padding: 20px 30px;
+        border-bottom: 1px solid #e2e8f0;
+        border-radius: 12px 12px 0 0;
+        position: relative;
+    }
+
+        .detail-card-header h3 {
+            margin: 0;
+            color: #4a00e0;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+    /* Customer ID Badge */
+    .customer-id-badge {
+        display: inline-block;
+        padding: 5px 12px;
+        background-color: #ebf4ff;
+        color: #4a00e0;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+    /* Field Icons */
+    .dl-horizontal dt:before {
+        margin-right: 10px;
+        opacity: 0.7;
+    }
+
+    .dl-horizontal dt:nth-of-type(1):before {
+        content: "🆔 ";
+    }
+
+    .dl-horizontal dt:nth-of-type(2):before {
+        content: "👤 ";
+    }
+
+    .dl-horizontal dt:nth-of-type(3):before {
+        content: "🏠 ";
+    }
+
+    .dl-horizontal dt:nth-of-type(4):before {
+        content: "📱 ";
+    }
+
+    .dl-horizontal dt:nth-of-type(5):before {
+        content: "⚧ ";
+    }
+
+    .dl-horizontal dt:nth-of-type(6):before {
+        content: "🪪 ";
+    }
+
+    .dl-horizontal dt:nth-of-type(7):before {
+        content: "🎂 ";
+    }
+
+    .dl-horizontal dt:nth-of-type(8):before {
+        content: "🌎 ";
+    }
+
+    .dl-horizontal dt:nth-of-type(9):before {
+        content: "✉️ ";
+    }
+
+    .dl-horizontal dt:nth-of-type(10):before {
+        content: "👤 ";
+    }
+
+    .dl-horizontal dt:nth-of-type(11):before {
+        content: "🔒 ";
+    }
+
+    /* Field Value Special Formatting */
+    /* Gender Formatting */
+    .dl-horizontal dd:nth-of-type(5) {
+        position: relative;
+    }
+
+        .dl-horizontal dd:nth-of-type(5)[data-value="Nam"]:before {
+            content: "♂️ ";
+            color: #3182ce;
+        }
+
+        .dl-horizontal dd:nth-of-type(5)[data-value="Nữ"]:before {
+            content: "♀️ ";
+            color: #d53f8c;
+        }
+
+    /* Date Formatting */
+    .dl-horizontal dd:nth-of-type(7) {
+        position: relative;
+    }
+
+    /* Print Button (Optional) */
+    .btn-print {
+        background-color: #edf2f7;
+        color: #4a5568;
+        border: 1px solid #e2e8f0;
+    }
+
+        .btn-print:hover {
+            background-color: #e2e8f0;
+        }
+
+        .btn-print:before {
+            content: "🖨️ ";
+            margin-right: 8px;
+        }
+
+    /* Empty State Styling */
+    .dl-horizontal dd:empty:after {
+        content: 'Không có thông tin';
+        color: #a0aec0;
+        font-style: italic;
+    }
+
+    /* ID Badge */
+    .id-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 3px 10px;
+        background-color: #ebf8ff;
+        border-radius: 20px;
+        font-weight: 500;
+        color: #3182ce;
+        font-size: 14px;
+        margin-right: 10px;
+    }
+
+    /* Footer Actions */
+    .detail-footer {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #e2e8f0;
+    }
+
+    /* Card Box Shadow Enhancement */
+    div > dl.dl-horizontal {
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03), 0 0 0 1px rgba(0, 0, 0, 0.02);
+    }
+
+    /* Focus States */
+    .btn:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.3);
+    }
 
 </style>

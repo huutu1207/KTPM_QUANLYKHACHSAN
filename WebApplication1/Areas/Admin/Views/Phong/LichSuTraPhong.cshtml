@@ -79,50 +79,211 @@
 </table>
 
 <style>
-    /* Table Style */
-    .table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-    }
+    /* Page Container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
 
-        /* Table Header Style */
-        .table th {
-            background-color: black;
-            color: white;
-            padding: 10px;
-            text-align: left;
-            font-weight: bold;
-        }
+/* Title Styling */
+h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2c3e50;
+    text-align: center;
+    margin: 30px 0;
+    padding-bottom: 15px;
+    position: relative;
+    letter-spacing: 0.5px;
+}
 
-        /* Table Data Style */
-        .table td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
+h2:after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(to right, #3498db, #2c3e50);
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
 
-        /* Table Row Hover Effect */
-        .table tr:hover {
-            background-color: #f2f2f2;
-        }
+/* Table Style */
+.table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 30px 0;
+    background-color: #fff;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-        /* Table Border */
-        .table th, .table td {
-            border: 1px solid #ddd;
-        }
+/* Table Header Style */
+.table th {
+    background: linear-gradient(to right, #2c3e50, #3498db);
+    color: white;
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 15px;
+    border: none;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
 
-    /* Title Styling */
-    h2 {
-        font-size: 24px;
-        color: #333;
-        text-align: center;
-        margin-bottom: 20px;
-    }
+.table th p {
+    margin: 0;
+    padding: 0;
+}
 
-    /* Add spacing around the table */
-    .table-container {
-        margin: 20px;
-    }
+/* First and last header cells with rounded corners */
+.table th:first-child {
+    border-top-left-radius: 10px;
+}
+
+.table th:last-child {
+    border-top-right-radius: 10px;
+}
+
+/* Table Data Style */
+.table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #e1e5f1;
+    color: #2c3e50;
+    font-size: 14.5px;
+    transition: all 0.2s ease;
+}
+
+/* Remove border from last row */
+.table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Alternating Row Colors */
+.table tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+.table tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+/* Table Row Hover Effect */
+.table tr:hover {
+    background-color: #e3f2fd;
+}
+
+.table tr:hover td {
+    color: #1a73e8;
+}
+
+/* Column-specific styling */
+/* Room Number */
+.table td:nth-child(1) {
+    font-weight: 600;
+    color: #1a73e8;
+}
+
+/* Customer ID */
+.table td:nth-child(2) {
+    font-family: 'Consolas', monospace;
+    letter-spacing: 0.5px;
+}
+
+/* Customer Name */
+.table td:nth-child(3) {
+    font-weight: 600;
+}
+
+/* Phone */
+.table td:nth-child(4) {
+    font-family: 'Consolas', monospace;
+}
+
+/* CCCD */
+.table td:nth-child(5) {
+    font-family: 'Consolas', monospace;
+    letter-spacing: 0.5px;
+}
+
+/* Email */
+.table td:nth-child(6) {
+    color: #666;
+    font-style: italic;
+}
+
+/* Price */
+.table td:nth-child(7) {
+    font-weight: 600;
+    color: #2e7d32;
+}
+
+/* Date columns */
+.table td:nth-child(8),
+.table td:nth-child(9) {
+    font-family: 'Consolas', monospace;
+    color: #555;
+}
+
+/* Status Indicator (if needed) */
+.status-indicator {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.status-complete {
+    background-color: #4caf50;
+}
+
+.status-pending {
+    background-color: #ff9800;
+}
+
+/* Empty Table State */
+.table-empty {
+    text-align: center;
+    padding: 40px;
+    color: #757575;
+    font-style: italic;
+}
+
+/* Table Header Hover Effect */
+.table th:hover {
+    background: linear-gradient(to right, #1a2530, #2980b9);
+}
+
+/* Search and Filter Area (if needed) */
+.table-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-box {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 300px;
+    font-size: 14px;
+}
+
+.filter-select {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: white;
+}
+
+/* Print-friendly styles (optional) */
 
 </style>

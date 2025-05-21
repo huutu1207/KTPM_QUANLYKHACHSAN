@@ -548,11 +548,12 @@ namespace WebApplication1.Controllers
                     {
                         MaDatPhong = m.MaDatPhong,
                         TenPhong = m.TenPhong,
-                        NgayDat = m.NgayDat.Value.ToString("dd/MM/yyyy"),
-                        NgayNhan = m.NgayNhan.Value.ToString("dd/MM/yyyy"),
-                        NgayTra = m.NgayTra.Value.ToString("dd/MM/yyyy"),
-                        ThanhTien = m.ThanhTien,
-                        CoTheHuy = m.NgayNhan > dateHomNay ? true : false
+                        NgayDat = m.NgayDat.HasValue ? m.NgayDat.Value.ToString("dd/MM/yyyy") : "",
+                        NgayNhan = m.NgayNhan.HasValue ? m.NgayNhan.Value.ToString("dd/MM/yyyy") : "",
+                        NgayTra = m.NgayTra.HasValue ? m.NgayTra.Value.ToString("dd/MM/yyyy") : "",
+                        ThanhTien = m.ThanhTien ?? 0, 
+                        CoTheHuy = m.NgayNhan.HasValue && m.NgayNhan > dateHomNay ? true : false
+
                     }
                 ).ToList();
             return View(lst);

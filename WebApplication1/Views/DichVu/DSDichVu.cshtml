@@ -7,6 +7,8 @@
 }
 
 <link rel="stylesheet" href="~/StyleCSS/DichVu.css" />
+<!-- Bootstrap CSS (nếu chưa có) -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
 
 <!-- Danh Sách Dịch Vụ -->
 <section class="ftco-section bg-light ftco-no-pt">
@@ -34,7 +36,14 @@
                             }
                         </p>
                         <p class="text-danger font-weight-bold">Giá: @String.Format("{0:0,0} VND", dichVu.Gia)</p>
-                        <a href="@Url.Action("ChiTietDichVu", "DichVu", new { id = dichVu.MaDV })" class="btn btn-primary">Tìm hiểu</a>
+                        <button type="button" class="btn btn-primary"
+                                data-toggle="modal"
+                                data-target="#dichVuModal"
+                                data-tendv="@dichVu.TenDV"
+                                data-mota="@Html.Raw(HttpUtility.JavaScriptStringEncode(dichVu.Mota ?? "Không có mô tả"))"
+                                data-gia="@String.Format("{0:0,0} VND", dichVu.Gia)">
+                            Tìm hiểu
+                        </button>
                     </div>
                 }
             }
@@ -46,72 +55,90 @@
     </div>
 </section>
 
+<!-- Modal -->
+<div class="modal fade" id="dichVuModal" tabindex="-1" role="dialog" aria-labelledby="dichVuModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="dichVuModalLabel">Tên Dịch Vụ</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="motaModal">Mô tả đầy đủ sẽ hiển thị ở đây...</p>
+                <p id="giaModal" class="text-danger font-weight-bold"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-
-<!-- Tiện Ích -->
 <!-- Tiện Ích -->
 <footer class="footer">
     <div class="container">
-        <!-- Phần tiêu đề -->
         <div class="row no-gutters justify-content-center pb-5 mb-3">
             <div class="col-md-7 heading-section text-center ftco-animate">
                 <h2>Tiện Ích</h2>
             </div>
         </div>
-        <!-- Phần các mục tiện ích -->
         <div class="row services-2">
-            <!-- Item 1 -->
             <div class="col-md-2 d-flex justify-content-center align-items-center ftco-animate mb-4">
                 <div class="service-item text-center">
-                    <div class="icon">
-                        <span class="flaticon-diet"></span>
-                    </div>
+                    <div class="icon"><span class="flaticon-diet"></span></div>
                     <h3>Trà và Cà Phê</h3>
                     <p>Một con sông nhỏ tên Duden chảy qua nơi đây và cung cấp những điều cần thiết.</p>
                 </div>
             </div>
-            <!-- Item 2 -->
             <div class="col-md-2 d-flex justify-content-center align-items-center ftco-animate mb-4">
                 <div class="service-item text-center">
-                    <div class="icon">
-                        <span class="flaticon-workout"></span>
-                    </div>
+                    <div class="icon"><span class="flaticon-workout"></span></div>
                     <h3>Vòi Sen Nước Nóng</h3>
                     <p>Một con sông nhỏ tên Duden chảy qua nơi đây và cung cấp những điều cần thiết.</p>
                 </div>
             </div>
-            <!-- Item 3 -->
             <div class="col-md-2 d-flex justify-content-center align-items-center ftco-animate mb-4">
                 <div class="service-item text-center">
-                    <div class="icon">
-                        <span class="flaticon-diet-1"></span>
-                    </div>
+                    <div class="icon"><span class="flaticon-diet-1"></span></div>
                     <h3>Dịch Vụ Giặt Ủi</h3>
                     <p>Một con sông nhỏ tên Duden chảy qua nơi đây và cung cấp những điều cần thiết.</p>
                 </div>
             </div>
-            <!-- Item 4 -->
             <div class="col-md-2 d-flex justify-content-center align-items-center ftco-animate mb-4">
                 <div class="service-item text-center">
-                    <div class="icon">
-                        <span class="flaticon-first"></span>
-                    </div>
+                    <div class="icon"><span class="flaticon-first"></span></div>
                     <h3>Điều Hòa Không Khí</h3>
                     <p>Một con sông nhỏ tên Duden chảy qua nơi đây và cung cấp những điều cần thiết.</p>
                 </div>
             </div>
-            <!-- Item 5 -->
             <div class="col-md-2 d-flex justify-content-center align-items-center ftco-animate mb-4">
                 <div class="service-item text-center">
-                    <div class="icon">
-                        <span class="flaticon-hotel"></span>
-                    </div>
+                    <div class="icon"><span class="flaticon-hotel"></span></div>
                     <h3>Dịch Vụ Phòng</h3>
                     <p>Một con sông nhỏ tên Duden chảy qua nơi đây và cung cấp những điều cần thiết.</p>
                 </div>
             </div>
-            
         </div>
     </div>
 </footer>
 
+<!-- jQuery + Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Modal Data Script -->
+<script>
+    $('#dichVuModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var tenDV = button.data('tendv');
+        var mota = button.data('mota');
+        var gia = button.data('gia');
+
+        var modal = $(this);
+        modal.find('.modal-title').text(tenDV);
+        modal.find('#motaModal').html(mota);
+        modal.find('#giaModal').text("Giá: " + gia);
+    });
+</script>

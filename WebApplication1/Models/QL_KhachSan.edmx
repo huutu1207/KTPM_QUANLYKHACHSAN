@@ -364,7 +364,7 @@
           <Property Name="TenDV" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Mota" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Gia" Type="Double" />
-          <Property Name="AnhDichVu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AnhDichVu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="DATDICHVUs" Relationship="Self.FK_DATDICHVU_DICHVU" FromRole="DICHVU" ToRole="DATDICHVU" />
         </EntityType>
         <EntityType Name="KHACHHANG">

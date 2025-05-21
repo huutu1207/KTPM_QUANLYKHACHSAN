@@ -25,7 +25,19 @@
                 <td>@item.TenDV</td>
                 <td>@item.Mota</td>
                 <td>@item.Gia</td>
-                <td><img src="@item.AnhDichVu" alt="Ảnh" style="width:100px;" /></td>
+                <td>
+                    @if (@item.AnhDichVu == null)
+                    {
+                        <p>chưa cài đặt ảnh đại diện</p>
+                    }
+                    else
+                    {
+                        <img style="max-width: 100px; max-height: 100px; width: auto; height: auto;"
+                        src="@Url.Content("~/Images/DichVu/" + item.AnhDichVu)" @* <<< SỬA Ở ĐÂY *@
+                        alt="Ảnh cho @item.TenDV" />
+
+                    }
+                            </td>
                 <td>
                     <a href="@Url.Action("SuaDichVu", new { id = item.MaDV })" class="btn btn-primary">Sửa</a>
                     <a href="@Url.Action("XoaDichVu", new { id = item.MaDV })" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn xóa không?')">Xóa</a>

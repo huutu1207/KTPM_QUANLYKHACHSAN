@@ -30,7 +30,8 @@ namespace WebApplication1.Areas.Admin.Controllers
                     MaPH = phong.MaPH,
                     SoPH = phong.SoPH,
                     SoLuongDaDat = datphongs.Count(dp => dp.NgayNhan > currentDate && dp.NgayTra >= currentDate),
-                    SoLuongDangO = datphongs.Count(dp => dp.NgayNhan <= currentDate && dp.NgayTra >= currentDate)
+                    SoLuongDangO = datphongs.Count(dp => dp.NgayNhan <= currentDate && dp.NgayTra >= currentDate),
+                    IsDisabled = (bool)phong.IsActive
                 };
             }).ToList();
 
@@ -369,6 +370,30 @@ namespace WebApplication1.Areas.Admin.Controllers
             var lstraphong = db.LichSuTraPhongs.ToList();
             return View(lstraphong);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult VoHieuHoa(string MaPH)
+        {
+            var phong = db.PHONGs.Find(MaPH);
+            if (phong != null)
+            {
+                phong.IsActive = true;
+                db.SaveChanges();
+            }
+            return RedirectToAction("DanhSachPhong");
+        }
+
+        public ActionResult MoVoHieuHoa(string MaPH)
+        {
+            var phong = db.PHONGs.Find(MaPH);
+            if (phong != null)
+            {
+                phong.IsActive = false;
+                db.SaveChanges();
+            }
+            return RedirectToAction("DanhSachPhong");
+        }
+
     }
 
 }

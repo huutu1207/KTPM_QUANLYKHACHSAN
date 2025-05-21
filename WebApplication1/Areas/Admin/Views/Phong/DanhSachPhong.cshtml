@@ -194,7 +194,89 @@
     .btn-add-room {
         margin-top: 15px;
     }
+
+
+
+
+
+
+    /* css cho nút vô hiệu hóa á nghe    */
+    /* Disable button styling */
+    .room-card {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
     }
+
+    /* Nội dung chính của phòng: dùng flex để đẩy nút xuống */
+    .room-card-content {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+
+    /* Nút "Vô hiệu hóa" căn giữa dưới cùng */
+    .room-card .btn-disable {
+        margin-top: auto; /* đẩy nút xuống dưới cùng */
+        margin-bottom: 16px; /* khoảng cách với viền dưới */
+        align-self: center; /* căn giữa theo chiều ngang */
+        background-color: #e74c3c;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 25px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+        .room-card .btn-disable:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+    /* Nút "Vô hiệu hóa" */
+    .room-card .btn-disable {
+        margin-top: auto; /* đẩy nút xuống dưới cùng */
+        margin-bottom: 16px; /* khoảng cách với viền dưới */
+        align-self: center; /* căn giữa theo chiều ngang */
+        background-color: #e74c3c; /* đỏ */
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 25px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+        .room-card .btn-disable:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+
+    /* Nút "Mở vô hiệu hóa" */
+    .room-card .btn-enable {
+        margin-top: auto; /* đẩy nút xuống dưới cùng */
+        margin-bottom: 16px; /* khoảng cách với viền dưới */
+        align-self: center; /* căn giữa theo chiều ngang */
+        background-color: #28a745; /* xanh lá */
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 25px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+        .room-card .btn-enable:hover {
+            background-color: #1e7e34;
+            transform: translateY(-2px);
+        }
+
 </style>
 
 <div class="room-management">
@@ -231,35 +313,109 @@
                 statusText = "Occupied";
                 statusBadgeClass = "status-occupied";
             }
-
             <div class="room-card @roomClass">
-                <a href="@Url.Action("Chitietphong", "Phong", new { MaPH = phong.MaPH })">
-                    <div class="room-number">Room @phong.SoPH</div>
-                    <div class="status-badge @statusBadgeClass">@statusText</div>
-                    <div class="room-details">
-                        <div class="room-detail-item">
-                            <i class="fas fa-bookmark"></i>
-                            <span>Booked: @phong.SoLuongDaDat guests</span>
+                <div class="room-card-content">
+                    <a href="@Url.Action("Chitietphong", "Phong", new { MaPH = phong.MaPH })" style="flex-grow:1">
+                        <div class="room-number">Room @phong.SoPH</div>
+                        <div class="status-badge @statusBadgeClass">@statusText</div>
+                        <div class="room-details">
+                            <div class="room-detail-item">
+                                <i class="fas fa-bookmark"></i>
+                                <span>Booked: @phong.SoLuongDaDat guests</span>
+                            </div>
+                            <div class="room-detail-item">
+                                <i class="fas fa-user-check"></i>
+                                <span>Staying: @phong.SoLuongDangO guests</span>
+                            </div>
                         </div>
-                        <div class="room-detail-item">
-                            <i class="fas fa-user-check"></i>
-                            <span>Staying: @phong.SoLuongDangO guests</span>
-                        </div>
-                    </div>
-                </a>
+                    </a>
+                    @if (phong.IsDisabled) 
+                    {
+                        <button class="btn btn-enable" data-id="@phong.MaPH" data-bs-toggle="modal" data-bs-target="#confirmEnableModal">
+                            Mở vô hiệu hóa
+                        </button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-disable" data-id="@phong.MaPH" data-bs-toggle="modal" data-bs-target="#confirmDisableModal">
+                            Vô hiệu hóa
+                        </button>
+                    }
+
+                </div>
             </div>
+
         }
     </div>
+
+
+
+    <form id="disableForm" method="post" action="/Admin/Phong/VoHieuHoa">
+        <input type="hidden" name="MaPH" id="selectedMaPH" />
+        @Html.AntiForgeryToken()
+    </form>
+
+
+
+    <form id="enableForm" method="post" action="/Admin/Phong/MoVoHieuHoa">
+        <input type="hidden" name="MaPH" id="selectedEnableMaPH" />
+        @Html.AntiForgeryToken()
+    </form>
+
+
+
+
+    <!-- Modal chỉ cần 1 cái -->
+    <div class="modal fade" id="confirmDisableModal" tabindex="-1" aria-labelledby="confirmDisableModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmDisableModalLabel">Xác nhận vô hiệu hóa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                </div>
+                <div class="modal-body">
+                    Bạn có chắc chắn muốn vô hiệu hóa phòng này không?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-danger" id="confirmDisableBtn">Vô hiệu hóa Phòng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- Modal xác nhận mở vô hiệu hóa -->
+    <div class="modal fade" id="confirmEnableModal" tabindex="-1" aria-labelledby="confirmEnableModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmEnableModalLabel">Xác nhận mở vô hiệu hóa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                </div>
+                <div class="modal-body">
+                    Bạn có chắc chắn muốn mở vô hiệu hóa phòng này không?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-success" id="confirmEnableBtn">Mở vô hiệu hóa phòng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script>
     // Simple filter functionality
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const filterButtons = document.querySelectorAll('.filter-btn');
         const roomCards = document.querySelectorAll('.room-card');
 
         filterButtons.forEach(button => {
-            button.addEventListener('click', function() {
+            button.addEventListener('click', function () {
                 // Update active button
                 filterButtons.forEach(btn => btn.classList.remove('active'));
                 this.classList.add('active');
@@ -280,5 +436,50 @@
                 });
             });
         });
+    });
+</script>
+
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let selectedRoomId = null;
+
+        // Khi bấm nút "Vô hiệu hóa", lưu MaPH vào biến và input ẩn
+        document.querySelectorAll('.btn-disable').forEach(button => {
+            button.addEventListener('click', function () {
+                selectedRoomId = this.getAttribute('data-id');
+                document.getElementById('selectedMaPH').value = selectedRoomId;
+            });
+        });
+
+        // Khi bấm nút xác nhận trong modal, gửi form
+        document.getElementById('confirmDisableBtn').addEventListener('click', function () {
+            if (selectedRoomId) {
+                document.getElementById('disableForm').submit();
+            }
+        });
+    });
+</script>
+
+
+
+<script>
+    let selectedEnableId = null;
+
+    // Khi bấm nút "Mở vô hiệu hóa"
+    document.querySelectorAll('.btn-enable').forEach(btn => {
+        btn.addEventListener('click', function () {
+            selectedEnableId = this.getAttribute('data-id');
+        });
+    });
+
+    // Khi xác nhận trong modal
+    document.getElementById('confirmEnableBtn').addEventListener('click', function () {
+        if (selectedEnableId) {
+            document.getElementById('selectedEnableMaPH').value = selectedEnableId;
+            document.getElementById('enableForm').submit();
+        }
     });
 </script>

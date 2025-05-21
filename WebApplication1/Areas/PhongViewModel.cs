@@ -12,6 +12,7 @@ namespace WebApplication1.Areas
         public string SoPH { get; set; }
         public int SoLuongDaDat { get; set; }
         public int SoLuongDangO { get; set; }
+        public bool IsDisabled { get; set; }
     }
 
     public class KhachHangDatPhongViewModel

@@ -320,6 +320,9 @@
     </Content>
     <Content Include="Areas\Admin\Views\TrangTin\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\Phong\LichSuTraPhong.cshtml" />
+    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Admin\Views\QL_DichVu\SuaDichVu.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -331,9 +334,11 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="StyleCSS\ChiTietPhong-admin.css" />
     <Content Include="StyleCSS\ChiTietPhong.css" />
     <Content Include="StyleCSS\DichVu.css" />
     <Content Include="StyleCSS\DanhSachPhong.css" />
+    <Content Include="StyleCSS\SuaDV.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

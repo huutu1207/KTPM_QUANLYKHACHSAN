@@ -5,7 +5,145 @@
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2>Chitietphong</h2>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết phòng</title>
+    <link rel="stylesheet" href="~/StyleCSS/ChiTietPhong-admin.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h2>Chi tiết phòng</h2>
+        </div>
+
+        <div class="room-details">
+            <div class="room-header">
+                <h4>PHONG</h4>
+            </div>
+
+            <div class="room-image">
+                <img src="~/Images/Sliders/@Model.Anh" alt="@Model.SoPH" />
+            </div>
+
+            <table class="detail-table">
+                <tbody>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.MaPH)</th>
+                        <td>@Html.DisplayFor(model => model.MaPH)</td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.SoPH)</th>
+                        <td>@Html.DisplayFor(model => model.SoPH)</td>
+                    </tr>
+                    <tr>
+                        <th>Mô tả</th>
+                        <td>
+                            @if (string.IsNullOrEmpty(Model.Mota?.Trim()))
+                            {
+                                <p> </p>
+                            }
+                            else
+                            {
+                                @Html.Raw(Model.Mota.ToString().Replace("\n", "</p><p>&nbsp&nbsp&nbsp&nbsp&nbsp"))
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Gia)</th>
+                        <td>@Html.DisplayFor(model => model.Gia)</td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.DienTich)</th>
+                        <td>@Html.DisplayFor(model => model.DienTich)</td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.NoiThat)</th>
+                        <td>@Html.DisplayFor(model => model.NoiThat)</td>
+                    </tr>
+                    <tr>
+                        <th>Khách Hàng Đang Ở</th>
+                        <td class="customer-info">
+                            @if (ViewBag.KhachHangStatus != null)
+                            {
+                                @ViewBag.KhachHangStatus
+                            }
+                            else
+                            {
+                                <p>
+                                    <strong>Mã Khách Hàng:</strong> @ViewBag.MaKH <br />
+                                    <strong>Tên Khách Hàng:</strong> @ViewBag.TenKH<br />
+                                    <strong>Địa chỉ:</strong> @ViewBag.DiaChi <br />
+                                    <strong>Số điện thoại:</strong> @ViewBag.DienThoai<br />
+                                    <strong>Ngày Trả phòng:</strong> @ViewBag.NgayTra
+                                </p>
+                            }
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="detail-section">
+            <h4 class="section-title">Danh sách khách hàng đã đặt phòng:</h4>
+
+            <div class="customer-list">
+                <table class="customer-table">
+                    <thead>
+                        <tr>
+                            <th>Mã Khách Hàng</th>
+                            <th>Tên Khách Hàng</th>
+                            <th>Địa chỉ</th>
+                            <th>Số điện thoại</th>
+                            <th>Ngày Nhận</th>
+                            <th>Ngày Trả</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (ViewBag.DanhSachKhachHang != null && (ViewBag.DanhSachKhachHang as List<WebApplication1.Areas.KhachHangDatPhongViewModel>).Any())
+                        {
+                            foreach (var khachHang in ViewBag.DanhSachKhachHang as List<WebApplication1.Areas.KhachHangDatPhongViewModel>)
+                            {
+                                <tr>
+                                    <td>@khachHang.MaKH</td>
+                                    <td>@khachHang.TenKH</td>
+                                    <td>@khachHang.DiaChi</td>
+                                    <td>@khachHang.SDT</td>
+                                    <td>@khachHang.NgayNhan.GetValueOrDefault().ToString("dd/MM/yyyy")</td>
+                                    <td>@khachHang.NgayTra.GetValueOrDefault().ToString("dd/MM/yyyy")</td>
+                                    <td>
+                                        <a href="@Url.Action("HuyDatPhong", "Phong", new { MaDP = khachHang.MaDP, MaPH = khachHang.MaPH})"
+                                           class="btn btn-danger btn-sm"
+                                           onclick="return confirm('Bạn có chắc chắn muốn hủy đặt phòng của khách hàng này?');">
+                                            Hủy Đặt
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="7" class="empty-message">Không có khách hàng nào đã đặt phòng.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="actions">
+            <a href="@Url.Action("Edit", "Phong", new { MaPH = Model.MaPH })" class="btn btn-primary">Chỉnh sửa</a>
+            <a href="@Url.Action("DanhSachPhong", "Phong")" class="btn btn-secondary">Quay lại danh sách</a>
+            <a href="@Url.Action("TraPhong", "Phong", new { MaPH = Model.MaPH })" class="btn btn-danger">Trả phòng</a>
+        </div>
+    </div>
+</body>
+</html>
+@*<h2>Chitietphong</h2>
 
 <div>
     <h4>PHONG</h4>
@@ -60,14 +198,14 @@
                     }
                     else
                     {
-                    <p>
-                        Mã Khách Hàng: @ViewBag.MaKH <br />
-                        Tên Khách Hàng: @ViewBag.TenKH<br />
-                        Địa chỉ: @ViewBag.DiaChi <br />
-                        Số điện thoại: @ViewBag.DienThoai<br />
-                        Ngày Trả phòng: @ViewBag.NgayTra
+                        <p>
+                            Mã Khách Hàng: @ViewBag.MaKH <br />
+                            Tên Khách Hàng: @ViewBag.TenKH<br />
+                            Địa chỉ: @ViewBag.DiaChi <br />
+                            Số điện thoại: @ViewBag.DienThoai<br />
+                            Ngày Trả phòng: @ViewBag.NgayTra
 
-                    </p>
+                        </p>
                     }
                 </td>
             </tr>
@@ -123,4 +261,4 @@
         <a href="@Url.Action("DanhSachPhong", "Phong")" class="btn btn-secondary">Back to List</a>
         <a href="@Url.Action("TraPhong", "Phong", new { MaPH = Model.MaPH })" class="btn btn-danger">Trả phòng</a>
     </p>
-</div>
+</div>*@

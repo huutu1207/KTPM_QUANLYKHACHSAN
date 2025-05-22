@@ -358,9 +358,9 @@ namespace WebApplication1.Controllers
         {
             try
             {
-                var fromAddress = new MailAddress("2224802010314@student.tdmu.edu.vn", "Lucky Hotel");
+                var fromAddress = new MailAddress("2224802010236@student.tdmu.edu.vn", "Lucky Hotel");
                 var toAddress = new MailAddress(emailNguoiDung);
-                const string fromPassword = "hbpk bhtz zvic aysp";
+                const string fromPassword = "iyko turm hvuq ybmn";
                 const string subject = "Xác nhận email";
 
                 string body = $"<h3>Chào bạn!</h3>" +
@@ -756,12 +756,12 @@ namespace WebApplication1.Controllers
             try
             {
                 // Địa chỉ email gửi
-                var fromAddress = new MailAddress("2224802010314@student.tdmu.edu.vn", "Lucky Hotel");
+                var fromAddress = new MailAddress("2224802010236@student.tdmu.edu.vn", "Lucky Hotel");
 
                 // Địa chỉ email nhận
                 var toAddress = new MailAddress(emailNguoiDung);
 
-                const string fromPassword = "hbpk bhtz zvic aysp";
+                const string fromPassword = "iyko turm hvuq ybmn";
                 const string subject = "Mã xác nhận đặt lại mật khẩu";
 
                 string body =$"<p>Mã xác nhận của bạn để đặt lại mật khẩu là: <strong>{verificationCode}</strong></p>" +

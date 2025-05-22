@@ -49,7 +49,7 @@
           <Property Name="TenDV" Type="nvarchar" MaxLength="50" />
           <Property Name="Mota" Type="nvarchar(max)" />
           <Property Name="Gia" Type="float" />
-          <Property Name="AnhDichVu" Type="nvarchar" MaxLength="50" />
+          <Property Name="AnhDichVu" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="KHACHHANG">
           <Key>
@@ -145,6 +145,7 @@
           <Property Name="CheckOut" Type="date" />
           <Property Name="DienTich" Type="float" />
           <Property Name="NoiThat" Type="nvarchar(max)" />
+          <Property Name="IsActive" Type="bit" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -469,6 +470,7 @@
           <NavigationProperty Name="BINHLUANs" Relationship="Self.FK_BINHLUAN_PHONG" FromRole="PHONG" ToRole="BINHLUAN" />
           <NavigationProperty Name="DATPHONGs" Relationship="Self.FK_DATPHONG_PHONG" FromRole="PHONG" ToRole="DATPHONG" />
           <NavigationProperty Name="LOAIPHONG" Relationship="Self.FK_PHONG_LOAIPHONG" FromRole="PHONG" ToRole="LOAIPHONG" />
+          <Property Name="IsActive" Type="Boolean" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -776,6 +778,7 @@
           <EntitySetMapping Name="PHONGs">
             <EntityTypeMapping TypeName="QL_KhachSanModel.PHONG">
               <MappingFragment StoreEntitySet="PHONG">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="MaPH" ColumnName="MaPH" />
                 <ScalarProperty Name="SoPH" ColumnName="SoPH" />
                 <ScalarProperty Name="Anh" ColumnName="Anh" />

@@ -27,7 +27,7 @@ namespace WebApplication1.Controllers
             ViewBag.LoaiPhongList = new SelectList(loaiPhongList, "MaLoai", "TenLoai"); // Hiển thị tên loại phòng
 
             // Lấy danh sách phòng và lọc theo loại phòng nếu có
-            var listPhongQuery = db.PHONGs.AsQueryable();
+            var listPhongQuery = db.PHONGs.Where(p => p.IsActive == false).AsQueryable();
 
             // Nếu có chọn loại phòng thì lọc theo loại phòng
             if (!string.IsNullOrEmpty(selectedLoaiPhong))

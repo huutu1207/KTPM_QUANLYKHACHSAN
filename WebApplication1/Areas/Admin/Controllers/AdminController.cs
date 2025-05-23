@@ -64,6 +64,16 @@ namespace WebApplication1.Areas.Admin.Controllers
             {
                 Session["UserChucVu"] = ad.ChucVu;
                 Session["NhanVien"] = ad.HoTen;
+                if (ad.ChucVu == "Quan li" || ad.ChucVu=="Le tan")
+                {
+                    if (Session["DaGuiEmailHomNay"] == null || (DateTime)Session["DaGuiEmailHomNay"] != DateTime.Today)
+                    {
+                        var emailService = new WebApplication1.Controllers.EmailService();
+                        emailService.GuiThongBaoTraPhong();
+                        emailService.GuiThongBaoTraPhong();
+                        Session["DaGuiEmailHomNay"] = DateTime.Today;
+                    }
+                }
                 return RedirectToAction("Index", "Admin");
             }
             else

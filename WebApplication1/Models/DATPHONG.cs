@@ -29,6 +29,7 @@ namespace WebApplication1.Models
         public string TinhTrang { get; set; }
         public Nullable<double> DonGia { get; set; }
         public Nullable<double> DatCoc { get; set; }
+        public Nullable<bool> EmailDaGui { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DATDICHVU> DATDICHVUs { get; set; }

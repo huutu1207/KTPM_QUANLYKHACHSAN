@@ -6,6 +6,53 @@
 
 @model IEnumerable<WebApplication1.Models.DICHVU>
 
+
+
+
+<div class="card shadow-sm mb-4 p-3 bg-light rounded">
+    <div class="row align-items-end">
+        <div class="col-md-4 mb-2">
+            <label><strong>Từ khóa:</strong></label>
+            <input type="text" id="keyword" class="form-control" placeholder="Tìm tên hoặc mô tả..." oninput="locBangDichVu()" />
+        </div>
+
+        <div class="col-md-3 mb-2">
+            <label><strong>Giá từ:</strong></label>
+            <input type="number" id="minPrice" class="form-control" placeholder="VNĐ" min="0" oninput="locBangDichVu()" />
+        </div>
+
+        <div class="col-md-3 mb-2">
+            <label><strong>Đến:</strong></label>
+            <input type="number" id="maxPrice" class="form-control" placeholder="VNĐ" min="0" oninput="locBangDichVu()" />
+        </div>
+        <div class="col-md-3 mb-2">
+            <button onclick="document.getElementById('keyword').value='';document.getElementById('minPrice').value='';document.getElementById('maxPrice').value='';locBangDichVu();" class="btn btn-secondary">Xoá lọc</button>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    function locBangDichVu() {
+        const keyword = document.getElementById("keyword").value.toLowerCase();
+        const minPrice = parseInt(document.getElementById("minPrice").value) || 0;
+        const maxPrice = parseInt(document.getElementById("maxPrice").value) || Infinity;
+
+        const rows = document.querySelectorAll("table tbody tr");
+
+        rows.forEach(row => {
+            const tenDV = row.cells[1].textContent.toLowerCase();
+            const moTa = row.cells[2].textContent.toLowerCase();
+            const gia = parseInt(row.cells[3].textContent) || 0;
+
+            const matchKeyword = tenDV.includes(keyword) || moTa.includes(keyword);
+            const matchPrice = gia >= minPrice && gia <= maxPrice;
+
+            row.style.display = (matchKeyword && matchPrice) ? "" : "none";
+        });
+    }
+</script>
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -33,11 +80,11 @@
                     else
                     {
                         <img style="max-width: 100px; max-height: 100px; width: auto; height: auto;"
-                        src="@Url.Content("~/Images/DichVu/" + item.AnhDichVu)" @* <<< SỬA Ở ĐÂY *@
-                        alt="Ảnh cho @item.TenDV" />
+                             src="@Url.Content("~/Images/DichVu/" + item.AnhDichVu)" @* <<< SỬA Ở ĐÂY *@
+                             alt="Ảnh cho @item.TenDV" />
 
                     }
-                            </td>
+                </td>
                 <td>
                     <a href="@Url.Action("SuaDichVu", new { id = item.MaDV })" class="btn btn-primary">Sửa</a>
                     <a href="@Url.Action("XoaDichVu", new { id = item.MaDV })" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn xóa không?')">Xóa</a>

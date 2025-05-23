@@ -40,6 +40,7 @@
           <Property Name="TinhTrang" Type="nvarchar" MaxLength="50" />
           <Property Name="DonGia" Type="float" />
           <Property Name="DatCoc" Type="float" />
+          <Property Name="EmailDaGui" Type="bit" />
         </EntityType>
         <EntityType Name="DICHVU">
           <Key>
@@ -356,6 +357,7 @@
           <NavigationProperty Name="DATDICHVUs" Relationship="Self.FK_DATDICHVU_DATPHONG1" FromRole="DATPHONG" ToRole="DATDICHVU" />
           <NavigationProperty Name="KHACHHANG" Relationship="Self.FK_DATPHONG_KHACHHANG" FromRole="DATPHONG" ToRole="KHACHHANG" />
           <NavigationProperty Name="PHONG" Relationship="Self.FK_DATPHONG_PHONG" FromRole="DATPHONG" ToRole="PHONG" />
+          <Property Name="EmailDaGui" Type="Boolean" />
         </EntityType>
         <EntityType Name="DICHVU">
           <Key>
@@ -667,6 +669,7 @@
           <EntitySetMapping Name="DATPHONGs">
             <EntityTypeMapping TypeName="QL_KhachSanModel.DATPHONG">
               <MappingFragment StoreEntitySet="DATPHONG">
+                <ScalarProperty Name="EmailDaGui" ColumnName="EmailDaGui" />
                 <ScalarProperty Name="MaDP" ColumnName="MaDP" />
                 <ScalarProperty Name="MaKH" ColumnName="MaKH" />
                 <ScalarProperty Name="MaPH" ColumnName="MaPH" />

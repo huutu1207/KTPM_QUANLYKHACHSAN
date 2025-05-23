@@ -156,6 +156,7 @@
     <Compile Include="Areas\PhongViewModel.cs" />
     <Compile Include="Controllers\DatPhongController.cs" />
     <Compile Include="Controllers\DichVuController.cs" />
+    <Compile Include="Models\EmailService.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LienHeController.cs" />
     <Compile Include="Controllers\PhongController.cs" />

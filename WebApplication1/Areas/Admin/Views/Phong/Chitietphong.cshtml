@@ -87,6 +87,64 @@
         </div>
 
         <div class="detail-section">
+            <h4 class="section-title">Bình luận của khách hàng:</h4>
+
+            <div class="comment-list">
+                @if (ViewBag.BinhLuanList is List<WebApplication1.Models.BinhLuanViewModel> binhLuans && binhLuans.Any())
+                {
+                    foreach (var bl in binhLuans)
+                    {
+                        <div class="comment-item" style="border: 1px solid #ccc; padding: 10px; margin-bottom: 20px; border-radius: 5px;">
+                            <div class="comment-header">
+                                <strong>@(bl.TenKhachHang ?? "Khách không tên")</strong>
+                                <span class="comment-date" style="float: right; color: #888;">
+                                    @(bl.NgayDanhGia.ToString("dd/MM/yyyy HH:mm"))
+                                </span>
+                            </div>
+
+                            <div class="comment-rating" style="margin: 5px 0;">
+                                <span>
+                                    Đánh giá:
+                                    @{
+                                        int stars = bl.DanhGia;
+                                        for (int i = 0; i < stars; i++)
+                                        {
+                                            @:<span style="color:gold;font-size:18px;">★</span>
+                                        }
+                                        for (int i = stars; i < 5; i++)
+                                        {
+                                            @:<span style="color:#ccc;font-size:18px;">☆</span>
+                                        }
+                                    }
+                                </span>
+                            </div>
+
+                            <div class="comment-content" style="margin: 10px 0;">
+                                @Html.Raw(bl.NoiDung ?? "<i>Không có nội dung</i>")
+                            </div>
+
+                            <div class="comment-actions">
+                                @using (Html.BeginForm("XoaBinhLuan", "Phong", new { area = "Admin", maBL = bl.MaBL }, FormMethod.Post, new { onsubmit = "return confirm('Bạn có chắc muốn xóa bình luận này?');" }))
+                                {
+                                    <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p class="empty-message">Chưa có bình luận nào cho phòng này.</p>
+                }
+            </div>
+        </div>
+
+
+
+
+
+
+        <div class="detail-section">
             <h4 class="section-title">Danh sách khách hàng đã đặt phòng:</h4>
 
             <div class="customer-list">

@@ -111,6 +111,21 @@ namespace WebApplication1.Areas.Admin.Controllers
                 
             }
 
+            var binhLuanList = (from bl in db.BINHLUANs
+                                join kh in db.KHACHHANGs on bl.MaKH equals kh.MaKH
+                                where bl.MaPH == MaPH
+                                select new BinhLuanViewModel
+                                {
+                                    MaBL = bl.MaBL,
+                                    TenKhachHang = kh.HoTen,
+                                    NoiDung = bl.NDBL,
+                                    DanhGia = (int)bl.DanhGia,
+                                }).ToList();
+
+            ViewBag.BinhLuanList = binhLuanList;
+
+
+
             ViewBag.DanhSachKhachHang = danhSachKhachHang;
 
             return View(phong);
@@ -393,6 +408,21 @@ namespace WebApplication1.Areas.Admin.Controllers
             }
             return RedirectToAction("DanhSachPhong");
         }
+        [HttpPost]
+        public ActionResult XoaBinhLuan(int maBL)
+        {
+            var bl = db.BINHLUANs.FirstOrDefault(b => b.MaBL == maBL);
+            if (bl != null)
+            {
+                string maPH = bl.MaPH;
+                db.BINHLUANs.Remove(bl);
+                db.SaveChanges();
+
+                return RedirectToAction("Chitietphong", "Phong", new { area = "Admin", MaPH = maPH });
+            }
+            return RedirectToAction("Index", "Phong", new { area = "Admin" });
+        }
+
 
     }
 

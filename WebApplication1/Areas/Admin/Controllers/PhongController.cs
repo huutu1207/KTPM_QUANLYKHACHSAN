@@ -1,7 +1,9 @@
-﻿using System;
+﻿using OfficeOpenXml;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using OfficeOpenXml.Style;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication1.Models;
@@ -422,7 +424,59 @@ namespace WebApplication1.Areas.Admin.Controllers
             }
             return RedirectToAction("Index", "Phong", new { area = "Admin" });
         }
+        public ActionResult XuatLichSuTraPhong()
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
+            // Lấy danh sách lịch sử trả phòng từ DB
+            var lichSuList = db.LichSuTraPhongs.ToList();
+
+            using (var package = new ExcelPackage())
+            {
+                // Tạo worksheet mới
+                var worksheet = package.Workbook.Worksheets.Add("LichSuTraPhong");
+
+                // Tạo header cột
+                worksheet.Cells[1, 1].Value = "Mã Phòng";
+                worksheet.Cells[1, 2].Value = "Số Phòng";
+                worksheet.Cells[1, 3].Value = "Mã Khách Hàng";
+                worksheet.Cells[1, 4].Value = "Họ Tên";
+                worksheet.Cells[1, 5].Value = "Điện Thoại";
+                worksheet.Cells[1, 6].Value = "CCCD";
+                worksheet.Cells[1, 7].Value = "Email";
+                worksheet.Cells[1, 8].Value = "Giá";
+                worksheet.Cells[1, 9].Value = "Ngày Nhận";
+                worksheet.Cells[1, 10].Value = "Ngày Trả";
+
+                int row = 2; // Bắt đầu từ dòng 2 (dưới header)
+
+                foreach (var item in lichSuList)
+                {
+                    worksheet.Cells[row, 1].Value = item.MaPH;
+                    worksheet.Cells[row, 2].Value = item.SoPH;
+                    worksheet.Cells[row, 3].Value = item.MaKH;
+                    worksheet.Cells[row, 4].Value = item.HoTen;
+                    worksheet.Cells[row, 5].Value = item.DienThoai;
+                    worksheet.Cells[row, 6].Value = item.CCCD;
+                    worksheet.Cells[row, 7].Value = item.Email;
+                    worksheet.Cells[row, 8].Value = item.Gia;
+                    worksheet.Cells[row, 9].Value = item.NgayNhan;
+                    worksheet.Cells[row, 10].Value = item.NgayTra;
+                    row++;
+                }
+
+                // Auto-fit cột
+                worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
+
+                // Trả về file Excel
+                var stream = new MemoryStream(package.GetAsByteArray());
+
+                string fileName = $"LichSuTraPhong_{DateTime.Now:yyyyMMddHHmmss}.xlsx";
+                string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+                return File(stream, contentType, fileName);
+            }
+        }
 
     }
 

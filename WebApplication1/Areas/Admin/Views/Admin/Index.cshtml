@@ -107,7 +107,7 @@
                 </div>
 
                 <div class="action-buttons">
-                    <button class="btn btn-edit">
+                    <button type="button" class="btn btn-edit" onclick="location.href='@Url.Action("ChinhSua", "Admin", new { id = ViewBag.ThongTinNhanVien.MaNV })'">
                         <i class="fas fa-user-edit"></i> Chỉnh sửa hồ sơ
                     </button>
                     <button class="btn btn-password">

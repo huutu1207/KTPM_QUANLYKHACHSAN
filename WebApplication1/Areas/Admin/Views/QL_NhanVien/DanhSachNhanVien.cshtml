@@ -444,9 +444,17 @@
                         <label for="HoTen" class="form-label">Họ Tên</label>
                         @Html.TextBox("HoTen", null, new { @class = "form-control", id = "HoTen" })
                     </div>
-                    <div class="mb-3">
+                    @*<div class="mb-3">
                         <label for="ChucVu" class="form-label">Chức Vụ</label>
                         @Html.TextBox("ChucVu", null, new { @class = "form-control", id = "ChucVu" })
+                    </div>*@
+                    <div class="mb-3">
+                        <label for="ChucVu" class="form-label">Chức Vụ</label>
+                        @Html.DropDownList("ChucVu", new List<SelectListItem>
+                        {
+                            new SelectListItem { Text = "Quan ly", Value = "Quan ly" },
+                            new SelectListItem { Text = "Le tan", Value = "Le tan" }
+                        },  new { @class = "form-control", id = "ChucVu" })
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>

@@ -88,5 +88,50 @@ namespace WebApplication1.Areas.Admin.Controllers
             Session["Admin"] = null;
             return RedirectToAction("DangNhap");
         }
+        [HttpGet]
+        public ActionResult ChinhSua(string id)
+        {
+            var nv = db.NHANVIENs.FirstOrDefault(n => n.MaNV == id);
+            if (nv == null) return HttpNotFound();
+
+            var model = new NHANVIEN
+            {
+                MaNV = nv.MaNV,
+                HoTen = nv.HoTen,
+                DiaChi = nv.DiaChi,
+                Email = nv.Email,
+                NgaySinh = nv.NgaySinh,
+                GioiTinh = nv.GioiTinh,
+                DienThoai = nv.DienThoai
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChinhSua(NHANVIEN model)
+        {
+            if (ModelState.IsValid)
+            {
+                var nv = db.NHANVIENs.FirstOrDefault(n => n.MaNV == model.MaNV);
+                if (nv == null) return HttpNotFound();
+                
+                nv.HoTen = model.HoTen;
+                nv.DiaChi = model.DiaChi;
+                nv.Email = model.Email;
+                nv.NgaySinh = model.NgaySinh;
+                nv.GioiTinh = model.GioiTinh;
+                nv.DienThoai = model.DienThoai;
+
+                db.SaveChanges();
+                TempData["Success"] = "Cập nhật thành công!";
+                return RedirectToAction("ChinhSua", "Admin", new { area = "Admin", id = model.MaNV });
+
+
+            }
+
+            return View(model); // Trả lại form nếu có lỗi nhập liệu
+        }
     }
 }

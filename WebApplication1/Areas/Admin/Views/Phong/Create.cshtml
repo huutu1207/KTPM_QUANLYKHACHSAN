@@ -5,217 +5,346 @@
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 <script src="~/ckeditor/ckeditor.js"></script>
+<script src="~/ckfinder/ckfinder.js"></script>
+
 <h2>Tạo Phòng Mới</h2>
 
 @using (Html.BeginForm("Create", "Phong", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <h4>Thông tin phòng</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-horizontal">
+        <h4>Thông tin phòng</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-    <div class="form-group">
-        @*@Html.LabelFor(model => model.MaPH, new { @class = "control-label col-md-2" })*@
-        @Html.Label("Mã phòng", new { @class = "control-label col-md-2" })
+        <div class="form-group">
+            @Html.Label("Mã phòng", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MaPH, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MaPH, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.MaPH, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.MaPH, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.Label("Số phòng", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SoPH, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SoPH, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Ảnh", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" name="AnhUpload" class="form-control" />
+                @if (ViewBag.ThongBao != null)
+                {
+                    <span class="text-danger">@ViewBag.ThongBao</span>
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-2">
+                <label class="control-label">Mô tả</label>
+            </div>
+            <div class="col-md-10">
+                <textarea name="MoTa" id="mota"></textarea>
+                <script>
+                    CKEDITOR.replace("mota", {
+                        customConfig: '/ckeditor/config.js',
+                        extraAllowedContent: 'span'
+                    });
+                </script>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Giá", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Gia, new { htmlAttributes = new { @class = "form-control", type = "number", step = "10000" } })
+                @Html.ValidationMessageFor(model => model.Gia, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Loại phòng", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.MaLoai, (SelectList)ViewBag.MaLoai, "Chọn loại phòng", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.MaLoai, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Nội thất", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NoiThat, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NoiThat, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Diện tích", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DienTich, new { htmlAttributes = new { @class = "form-control", type = "number", step = "1" } })
+                @Html.ValidationMessageFor(model => model.DienTich, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group" id="nut">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Tạo mới" class="btn btn-primary text-white" />
+            </div>
         </div>
     </div>
-
-    <div class="form-group">
-        @*@Html.LabelFor(model => model.SoPH, new { @class = "control-label col-md-2" })*@
-        @Html.Label("Số phòng", new { @class = "control-label col-md-2" })
-
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.SoPH, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.SoPH, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.Label("Ảnh", new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            <input type="file" name="AnhUpload" class="form-control" />
-            @if (ViewBag.ThongBao != null)
-            {
-                <span class="text-danger">@ViewBag.ThongBao</span>
-            }
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label> Mô tả</label>
-        <textarea name="MoTa" id="mota"></textarea>
-        <script>
-            CKEDITOR.replace("mota", {
-                customConfig: '/ckeditor/config.js',
-                extraAllowedContent: 'span'
-            });
-        </script>
-
-    </div>
-
-
-
-    <div class="form-group">
-        @*@Html.LabelFor(model => model.Gia, new { @class = "control-label col-md-2" })*@
-        @Html.Label("Giá", new { @class = "control-label col-md-2" })
-
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Gia, new { htmlAttributes = new { @class = "form-control", type = "number", step = "10000" } })
-            @Html.ValidationMessageFor(model => model.Gia, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @*@Html.LabelFor(model => model.MaLoai, new { @class = "control-label col-md-2" })*@
-        @Html.Label("Loại phòng", new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(model => model.MaLoai, (SelectList)ViewBag.MaLoai, "Chọn loại phòng", new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.MaLoai, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @*@Html.LabelFor(model => model.SoPH, new { @class = "control-label col-md-2" })*@
-        @Html.Label("Nội thất", new { @class = "control-label col-md-2" })
-
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.NoiThat, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.NoiThat, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @*@Html.LabelFor(model => model.Gia, new { @class = "control-label col-md-2" })*@
-        @Html.Label("Diện tích", new { @class = "control-label col-md-2" })
-
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.DienTich, new { htmlAttributes = new { @class = "form-control", type = "number", step = "1"} })
-            @Html.ValidationMessageFor(model => model.DienTich, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group" id="nut">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Tạo mới" class="btn btn-primary text-white" />
-        </div>
-    </div>
-</div>
 }
 
 <div class="back" id="back">
     <a href="@Url.Action("DanhSachPhong", "QL_LoaiPhong")" class="btn btn-secondary">Quay lại danh sách</a>
 </div>
 
-
-<style>
+<style type="text/css">
     /* Cấu trúc form */
     .form-horizontal {
-        max-width: 800px; /* Đặt chiều rộng tối đa cho form */
-        margin: 0 auto; /* Căn giữa form */
-        padding: 20px;
-        background-color: #f8f9fa;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Thêm bóng đổ cho form */
+        max-width: 900px; /* Tăng chiều rộng tối đa cho form */
+        margin: 2rem auto; /* Căn giữa form và thêm margin top/bottom */
+        padding: 2rem;
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Bóng đổ mượt mà hơn */
+        transition: all 0.3s ease;
+        border: 1px solid #eaeaea;
+    }
+
+        .form-horizontal:hover {
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15); /* Hiệu ứng hover nhẹ */
+        }
+
+    /* Tiêu đề form */
+    h2 {
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+        font-size: 2.2rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #3498db;
+        display: inline-block;
+    }
+
+    h4 {
+        color: #3498db;
+        font-weight: 500;
+        margin-bottom: 1.5rem;
+        font-size: 1.4rem;
     }
 
     /* Các nhóm form */
     .form-group {
         display: flex;
-        flex-direction: column;
-        margin-bottom: 1.5rem; /* Khoảng cách giữa các nhóm */
+        flex-direction: row; /* Đổi thành row để label và input nằm ngang */
+        align-items: flex-start;
+        margin-bottom: 1.8rem; /* Khoảng cách giữa các nhóm */
+        position: relative;
     }
 
         .form-group label {
-            font-weight: bold;
+            font-weight: 500;
             margin-bottom: 0.5rem; /* Khoảng cách giữa label và input */
-            color: #495057;
+            color: #34495e;
+            min-width: 140px; /* Độ rộng cố định cho các label */
+            padding-top: 0.75rem; /* Căn chỉnh chiều cao với input */
         }
+
+    .control-label {
+        text-align: right;
+        padding-right: 15px;
+    }
+
+    .col-md-10 {
+        flex: 1;
+    }
 
     .form-control {
         width: 100%; /* Đảm bảo input chiếm toàn bộ chiều rộng */
-        padding: 0.75rem; /* Padding cho input */
+        padding: 0.85rem 1rem; /* Tăng padding cho input */
         font-size: 1rem;
-        border: 1px solid #ced4da;
-        border-radius: 4px;
-        background-color: #fff;
-        transition: border-color 0.3s, box-shadow 0.3s;
+        border: 1px solid #dce4ec;
+        border-radius: 6px;
+        background-color: #f9fbfc;
+        transition: all 0.3s ease;
     }
 
         /* Khi input focus */
         .form-control:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+            border-color: #3498db;
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
             outline: none;
+            background-color: #ffffff;
+        }
+
+        /* Hiệu ứng khi hover input */
+        .form-control:hover {
+            background-color: #ffffff;
+            border-color: #bdc3c7;
         }
 
     /* Các thông báo lỗi */
     .text-danger {
-        font-size: 0.875rem;
-        color: #e74a3b;
+        font-size: 0.85rem;
+        color: #e74c3c;
+        display: block;
+        margin-top: 0.5rem;
+        font-weight: 500;
     }
 
-    /* Nút submit */
+    /* Input file cho ảnh */
+    input[type="file"] {
+        padding: 0.6rem;
+        background-color: #f1f5f9;
+        border: 1px dashed #95a5a6;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        input[type="file"]:hover {
+            background-color: #e8f4fc;
+            border-color: #3498db;
+        }
+
+    /* CKEditor container */
+    .form-group label[for="mota"] {
+        display: block;
+        width: 100%;
+        margin-bottom: 0.75rem;
+        color: #34495e;
+        font-weight: 500;
+    }
+
+    .cke_chrome {
+        border-color: #dce4ec !important;
+        box-shadow: none !important;
+        border-radius: 6px !important;
+        overflow: hidden;
+    }
+
+    /* Nút submit và các nút khác */
     #nut {
         display: flex;
-        justify-content: flex-start; /* Căn nút sang bên trái */
-        gap: 10px; /* Khoảng cách giữa các nút */
+        justify-content: flex-start;
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #eee;
     }
 
         #nut input[type="submit"] {
-            padding: 0.75rem 1.5rem;
+            padding: 0.85rem 2rem;
             font-size: 1rem;
-            background-color: #007bff;
+            font-weight: 500;
+            background-color: #3498db;
             color: white;
-            border: 1px solid #007bff;
-            border-radius: 4px;
+            border: none;
+            border-radius: 6px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
             #nut input[type="submit"]:hover {
-                background-color: #0056b3;
+                background-color: #2980b9;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            #nut input[type="submit"]:active {
+                transform: translateY(0);
             }
 
     /* Nút Quay lại */
     #back {
-        margin-top: 20px;
+        margin-top: 1.5rem;
         text-align: center;
     }
 
         #back a {
-            padding: 0.75rem 1.5rem;
+            padding: 0.85rem 2rem;
             font-size: 1rem;
-            background-color: #6c757d;
+            font-weight: 500;
+            background-color: #7f8c8d;
             color: white;
-            border-radius: 4px;
+            border-radius: 6px;
             text-decoration: none;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
+            display: inline-block;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
             #back a:hover {
-                background-color: #5a6268;
+                background-color: #6c7a7d;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             }
 
-    /* Cải thiện giao diện CKEditor */
-    textarea {
-        font-family: Arial, sans-serif;
-        font-size: 1rem;
-        padding: 0.75rem;
-        border: 1px solid #ced4da;
-        border-radius: 4px;
-        resize: vertical; /* Cho phép người dùng thay đổi chiều cao */
+            #back a:active {
+                transform: translateY(0);
+            }
+
+    /* Dropdown styling */
+    select.form-control {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2334495e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 1rem center;
+        background-size: 1em;
+        padding-right: 2.5rem;
     }
 
-        textarea:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
-            outline: none;
+        select.form-control:focus {
+            background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%233498db' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
         }
-v
+
+    /* Hiệu ứng animation cho form */
+    .form-horizontal {
+        animation-name: fadeIn;
+        animation-duration: 0.6s;
+        animation-timing-function: ease-out;
+    }
+
+    }
+    }
+
+    /* Cải thiện field type number */
+    input[type="number"] {
+        -moz-appearance: textfield;
+    }
+
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+    /* Style cho CKEditor */
+    .cke_top {
+        background: #f9fbfc !important;
+        border-bottom: 1px solid #eaeaea !important;
+        padding: 8px 10px !important;
+    }
+
+    .cke_bottom {
+        background: #f9fbfc !important;
+        border-top: 1px solid #eaeaea !important;
+        padding: 6px 10px !important;
+    }
+
+    /* Mô tả phòng - khắc phục vấn đề với has() */
+    .form-group textarea {
+        width: 100%;
+        min-height: 200px;
+        margin-bottom: 2rem;
+    }
 </style>

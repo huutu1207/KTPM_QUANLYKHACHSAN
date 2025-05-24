@@ -48,3 +48,318 @@
     }
 </table>
 
+<style>
+    /* Main Container Styling */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    /* Page Title Styling */
+    h2 {
+        font-size: 26px;
+        font-weight: 700;
+        color: #2c3e50;
+        text-align: center;
+        margin: 30px 0;
+        padding-bottom: 15px;
+        position: relative;
+        letter-spacing: 0.5px;
+    }
+
+        h2:after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            width: 120px;
+            height: 3px;
+            background: linear-gradient(to right, #3498db, #9b59b6);
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+    /* Create Button Container */
+    .action-buttons {
+        margin: 20px 0;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    /* Create Button Styling */
+    .btn-primary {
+        background: linear-gradient(to right, #3498db, #2980b9);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 15px;
+        font-weight: 600;
+        border-radius: 6px;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+    }
+
+        .btn-primary:hover {
+            background: linear-gradient(to right, #2980b9, #2573a7);
+            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 5px rgba(52, 152, 219, 0.3);
+        }
+
+        /* Create Icon */
+        .btn-primary:before {
+            content: "+";
+            margin-right: 8px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+    /* Table Styling */
+    .table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin: 20px 0;
+        background-color: #fff;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+        /* Table Header */
+        .table thead tr {
+            background: linear-gradient(to right, #2c3e50, #3498db);
+            color: white;
+        }
+
+        .table th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 15px;
+            border: none;
+            letter-spacing: 0.5px;
+        }
+
+            /* First and last header cells with rounded corners */
+            .table th:first-child {
+                border-top-left-radius: 10px;
+            }
+
+            .table th:last-child {
+                border-top-right-radius: 10px;
+                text-align: center;
+            }
+
+        /* Table Data */
+        .table td {
+            padding: 14px 15px;
+            border-bottom: 1px solid #e1e5f1;
+            color: #34495e;
+            font-size: 14.5px;
+            vertical-align: middle;
+        }
+
+            /* Last column with actions */
+            .table td:last-child {
+                text-align: center;
+                width: 150px;
+            }
+
+        /* Remove border from last row */
+        .table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Alternating Row Colors */
+        .table tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        .table tr:nth-child(odd) {
+            background-color: #ffffff;
+        }
+
+        /* Table Row Hover Effect */
+        .table tbody tr:hover {
+            background-color: #edf7ff;
+        }
+
+            .table tbody tr:hover td {
+                color: #2980b9;
+            }
+
+        /* Column-specific styling */
+        /* Title Column */
+        .table td:nth-child(1) {
+            font-weight: 600;
+            color: #2980b9;
+            max-width: 200px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Content Column */
+        .table td:nth-child(2) {
+            color: #7f8c8d;
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Date Column */
+        .table td:nth-child(3) {
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            color: #7f8c8d;
+            white-space: nowrap;
+        }
+
+        /* Meta Title Column */
+        .table td:nth-child(4) {
+            font-style: italic;
+            color: #95a5a6;
+            max-width: 200px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+    /* Action Buttons */
+    .btn {
+        padding: 8px 16px;
+        margin: 0 5px;
+        font-size: 14px;
+        font-weight: 600;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-block;
+        text-decoration: none;
+    }
+
+    /* Edit Button */
+    .btn-warning {
+        background: linear-gradient(to right, #f39c12, #e67e22);
+        color: white;
+        border: none;
+        box-shadow: 0 3px 6px rgba(243, 156, 18, 0.3);
+    }
+
+        .btn-warning:hover {
+            background: linear-gradient(to right, #e67e22, #d35400);
+            box-shadow: 0 5px 12px rgba(243, 156, 18, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-warning:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 3px rgba(243, 156, 18, 0.3);
+        }
+
+    /* Delete Button */
+    .btn-danger {
+        background: linear-gradient(to right, #e74c3c, #c0392b);
+        color: white;
+        border: none;
+        box-shadow: 0 3px 6px rgba(231, 76, 60, 0.3);
+    }
+
+        .btn-danger:hover {
+            background: linear-gradient(to right, #c0392b, #a93226);
+            box-shadow: 0 5px 12px rgba(231, 76, 60, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-danger:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 3px rgba(231, 76, 60, 0.3);
+        }
+
+    /* Empty Table State */
+    .table-empty {
+        padding: 40px;
+        text-align: center;
+        color: #7f8c8d;
+        font-style: italic;
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Tooltip for truncated text */
+    [data-tooltip] {
+        position: relative;
+        cursor: help;
+    }
+
+        [data-tooltip]:before {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 8px 12px;
+            background-color: #34495e;
+            color: white;
+            border-radius: 6px;
+            font-size: 13px;
+            white-space: normal;
+            width: 200px;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        [data-tooltip]:hover:before {
+            visibility: visible;
+            opacity: 1;
+        }
+
+    /* Table header font weight and transformation */
+    .table th {
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 13px;
+        letter-spacing: 0.7px;
+    }
+
+    /* No data message */
+    .no-data {
+        text-align: center;
+        padding: 50px;
+        color: #95a5a6;
+        font-style: italic;
+    }
+
+    /* Action cell background */
+    .table td.actions {
+        background-color: #f9f9f9;
+    }
+
+    /* Focus states for buttons */
+    .btn:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+    }
+
+    .btn-warning:focus {
+        box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.3);
+    }
+
+    .btn-danger:focus {
+        box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.3);
+    }
+</style>

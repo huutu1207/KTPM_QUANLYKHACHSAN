@@ -95,30 +95,409 @@
 </p>
 
 <style>
+    . /* Main Container Styling */
+    .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    /* Page Title Styling */
+    h2 {
+        font-size: 28px;
+        font-weight: 700;
+        color: #2c3e50;
+        margin: 30px 0 20px;
+        padding-bottom: 15px;
+        position: relative;
+        letter-spacing: 0.5px;
+    }
+
+        h2:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(to right, #3498db, #2980b9);
+            border-radius: 3px;
+        }
+
+    /* Content Container */
+    .details-container {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+        border: 1px solid #edf2f7;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Employee Title */
+    h4 {
+        font-size: 20px;
+        font-weight: 600;
+        color: #34495e;
+        margin-bottom: 20px;
+        padding: 10px 15px;
+        background-color: #f7fafc;
+        border-radius: 8px;
+        border-left: 4px solid #3498db;
+        display: inline-block;
+    }
+
+    /* Divider */
+    hr {
+        border: 0;
+        height: 1px;
+        background: linear-gradient(to right, rgba(52, 152, 219, 0.1), rgba(52, 152, 219, 0.5), rgba(52, 152, 219, 0.1));
+        margin: 20px 0 30px;
+    }
+
+    /* Definition List Styling */
+    .dl-horizontal {
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+
+        /* Term (Left Column) */
+        .dl-horizontal dt {
+            text-align: right;
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 15px;
+            padding: 12px 15px;
+            background-color: #f8fafc;
+            border-radius: 6px 0 0 6px;
+            border-right: 3px solid #e2e8f0;
+        }
+
+        /* Data (Right Column) */
+        .dl-horizontal dd {
+            margin-left: 0;
+            font-size: 16px;
+            color: #2d3748;
+            padding: 12px 15px;
+            background-color: #f8fafc;
+            border-radius: 0 6px 6px 0;
+        }
+
+            /* Row Alternating Colors */
+            .dl-horizontal dt:nth-of-type(odd),
+            .dl-horizontal dd:nth-of-type(odd) {
+                background-color: #f8fafc;
+            }
+
+            .dl-horizontal dt:nth-of-type(even),
+            .dl-horizontal dd:nth-of-type(even) {
+                background-color: #f0f4f8;
+            }
+
+            /* Hover Effect for Rows */
+            .dl-horizontal dt:hover,
+            .dl-horizontal dd:hover {
+                background-color: #edf2f7;
+            }
+
+    /* Field-specific Styling */
+    .field-id {
+        font-weight: 700;
+    }
+
+        .field-id dt {
+            color: #3498db;
+        }
+
+        .field-id dd {
+            font-family: 'Consolas', monospace;
+            letter-spacing: 1px;
+            font-weight: 700;
+            color: #3498db;
+        }
+
+    .field-name dt {
+        color: #2c3e50;
+    }
+
+    .field-name dd {
+        font-weight: 700;
+        color: #2c3e50;
+    }
+
+    .field-email dd {
+        font-style: italic;
+        color: #4299e1;
+    }
+
+    .field-dob dt, .field-dob dd {
+        color: #718096;
+    }
+
+    .field-dob dd {
+        font-family: 'Consolas', monospace;
+    }
+
+    .field-gender dt, .field-gender dd {
+        color: #718096;
+    }
+
+    .field-username dt, .field-username dd {
+        color: #718096;
+    }
+
+    .field-password dt, .field-password dd {
+        color: #718096;
+    }
+
+    .field-password dd {
+        font-family: 'Consolas', monospace;
+    }
+
+    .field-position dt {
+        color: #2c3e50;
+    }
+
+    .field-position dd {
+        font-weight: 600;
+        color: #38a169;
+    }
+
+    /* Password Masking */
+    .password-masked {
+        position: relative;
+    }
+
+        .password-masked:after {
+            content: '••••••••';
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .password-masked span {
+            visibility: hidden;
+        }
+
+    /* Action Buttons Container */
+    .action-buttons {
+        margin-top: 20px;
+        margin-bottom: 40px;
+        display: flex;
+        gap: 15px;
+    }
+
+    /* Button Styling */
     .btn {
         display: inline-block;
-        padding: 10px 20px;
+        padding: 12px 25px;
         font-size: 16px;
-        font-weight: bold;
+        font-weight: 600;
         text-align: center;
         text-decoration: none;
         border: none;
-        border-radius: 5px;
+        border-radius: 6px;
         cursor: pointer;
+        transition: all 0.3s ease;
     }
 
+    /* Primary Button - Edit */
     .btn-primary {
-        background-color: #007bff;
+        background: linear-gradient(to right, #3498db, #2980b9);
         color: white;
+        box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
     }
 
+        .btn-primary:hover {
+            background: linear-gradient(to right, #2980b9, #2573a7);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 5px rgba(52, 152, 219, 0.3);
+        }
+
+        /* Edit Button Icon */
+        .btn-primary:before {
+            content: "✏️";
+            margin-right: 8px;
+        }
+
+    /* Secondary Button - Back */
     .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+        box-shadow: 0 4px 10px rgba(108, 117, 125, 0.3);
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(108, 117, 125, 0.4);
+        }
+
+        .btn-secondary:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 5px rgba(108, 117, 125, 0.3);
+        }
+
+        /* Back Button Icon */
+        .btn-secondary:before {
+            content: "←";
+            margin-right: 8px;
+            font-weight: bold;
+        }
+
+    /* Employee Profile Section */
+    .employee-profile {
+        display: flex;
+        margin-bottom: 30px;
+        align-items: center;
+    }
+
+    /* Employee Avatar */
+    .employee-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background-color: #3498db;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 48px;
+        font-weight: 700;
+        margin-right: 25px;
+        box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        border: 5px solid #fff;
+    }
+
+    /* Employee Info Summary */
+    .employee-info {
+        flex: 1;
+    }
+
+    .employee-name {
+        font-size: 24px;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 5px;
+    }
+
+    .employee-position {
+        font-size: 16px;
+        color: #38a169;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .employee-email {
+        font-size: 14px;
+        color: #4299e1;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+    }
+
+        .employee-email:before {
+            content: "✉️";
+            margin-right: 8px;
+        }
+
+    /* Status Badge */
+    .status-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 30px;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-left: 10px;
+    }
+
+    .status-active {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    /* Section Headers */
+    .section-header {
+        font-size: 18px;
+        font-weight: 600;
+        color: #2c3e50;
+        margin: 30px 0 15px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #edf2f7;
+    }
+
+    /* Decorative Corner Element */
+    .details-container:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        border-width: 0 30px 30px 0;
+        border-style: solid;
+        border-color: #e1f5fe #ffffff;
+    }
+
+    /* Empty Data Indicator */
+    .dl-horizontal dd:empty:after {
+        content: 'Không có dữ liệu';
+        color: #a0aec0;
+        font-style: italic;
+    }
+
+    /* Additional Container for Tabbed Content (if needed) */
+    .tabs-container {
+        margin-top: 20px;
+    }
+
+    .tabs-header {
+        display: flex;
+        border-bottom: 1px solid #e2e8f0;
+        margin-bottom: 20px;
+    }
+
+    .tab {
+        padding: 10px 20px;
+        font-weight: 600;
+        color: #718096;
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+        transition: all 0.3s ease;
+    }
+
+        .tab.active {
+            color: #3498db;
+            border-bottom: 2px solid #3498db;
+        }
+
+    /* Print Button (if needed) */
+    .btn-print {
         background-color: #6c757d;
         color: white;
     }
 
-    .btn:hover {
-        opacity: 0.9;
+        .btn-print:before {
+            content: "🖨️";
+            margin-right: 8px;
+        }
+
+    /* Last updated info */
+    .last-updated {
+        font-size: 12px;
+        color: #7f8c8d;
+        margin-top: 30px;
+        text-align: right;
+        font-style: italic;
     }
 </style>
 

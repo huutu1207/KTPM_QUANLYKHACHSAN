@@ -32,6 +32,7 @@ namespace WebApplication1.Models
         public Nullable<System.DateTime> CheckOut { get; set; }
         public Nullable<double> DienTich { get; set; }
         public string NoiThat { get; set; }
+        public Nullable<bool> IsActive { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BINHLUAN> BINHLUANs { get; set; }

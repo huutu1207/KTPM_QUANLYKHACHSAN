@@ -1,0 +1,137 @@
+﻿
+@{
+    ViewBag.Title = "ChinhSua";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@model WebApplication1.Models.NHANVIEN
+<h2>Chỉnh sửa thông tin cá nhân</h2>
+@using (Html.BeginForm("ChinhSua", "Admin", new { area = "Admin", id = Model.MaNV }, FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.MaNV)
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.HoTen)
+        @Html.TextBoxFor(model => model.HoTen, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.NgaySinh)
+        @Html.TextBoxFor(model => model.NgaySinh, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.GioiTinh)
+        @Html.DropDownListFor(model => model.GioiTinh,
+            new SelectList(new[] { "Nam", "Nữ", "Khác" }), "-- Chọn giới tính --",
+            new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.DiaChi)
+        @Html.TextBoxFor(model => model.DiaChi, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.DienThoai)
+        @Html.TextBoxFor(model => model.DienThoai, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Email)
+        @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @type = "email" })
+    </div>
+    <button type="submit" class="btn btn-primary">Cập nhật</button>
+}
+
+
+<style>
+    /* Tổng thể form */
+    form {
+        max-width: 600px;
+        margin: 30px auto;
+        padding: 25px 30px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Tiêu đề */
+    h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #333;
+        font-weight: 700;
+        font-size: 1.9rem;
+        letter-spacing: 1px;
+    }
+
+    /* Nhãn (Label) */
+    form label {
+        font-weight: 600;
+        color: #555;
+        margin-bottom: 6px;
+        display: block;
+        font-size: 1rem;
+    }
+
+    /* Input, select */
+    .form-control {
+        border-radius: 6px;
+        border: 1.8px solid #ddd;
+        padding: 10px 14px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0,123,255,0.25);
+            outline: none;
+        }
+
+    /* Dropdown */
+    select.form-control {
+        appearance: none;
+        background: url("data:image/svg+xml;charset=US-ASCII,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='gray'%3e%3cpath d='M4 6l4 4 4-4z'/%3e%3c/svg%3e") no-repeat right 12px center / 12px 12px;
+        padding-right: 36px;
+    }
+
+    /* Button submit */
+    button.btn-primary {
+        display: block;
+        width: 100%;
+        padding: 12px 0;
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: white;
+        background-color: #007bff;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-top: 20px;
+    }
+
+        button.btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+    /* Responsive: nhỏ hơn 480px thì form full width với padding nhỏ hơn */
+    @@media (max-width: 480px) {
+        form {
+            margin: 15px 10px;
+            padding: 20px 15px;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+        }
+    }
+</style>
+

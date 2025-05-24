@@ -6,6 +6,53 @@
 
 @model IEnumerable<WebApplication1.Models.DICHVU>
 
+
+
+
+<div class="card shadow-sm mb-4 p-3 bg-light rounded">
+    <div class="row align-items-end">
+        <div class="col-md-4 mb-2">
+            <label><strong>Từ khóa:</strong></label>
+            <input type="text" id="keyword" class="form-control" placeholder="Tìm tên hoặc mô tả..." oninput="locBangDichVu()" />
+        </div>
+
+        <div class="col-md-3 mb-2">
+            <label><strong>Giá từ:</strong></label>
+            <input type="number" id="minPrice" class="form-control" placeholder="VNĐ" min="0" oninput="locBangDichVu()" />
+        </div>
+
+        <div class="col-md-3 mb-2">
+            <label><strong>Đến:</strong></label>
+            <input type="number" id="maxPrice" class="form-control" placeholder="VNĐ" min="0" oninput="locBangDichVu()" />
+        </div>
+        <div class="col-md-3 mb-2">
+            <button onclick="document.getElementById('keyword').value='';document.getElementById('minPrice').value='';document.getElementById('maxPrice').value='';locBangDichVu();" class="btn btn-secondary">Xoá lọc</button>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    function locBangDichVu() {
+        const keyword = document.getElementById("keyword").value.toLowerCase();
+        const minPrice = parseInt(document.getElementById("minPrice").value) || 0;
+        const maxPrice = parseInt(document.getElementById("maxPrice").value) || Infinity;
+
+        const rows = document.querySelectorAll("table tbody tr");
+
+        rows.forEach(row => {
+            const tenDV = row.cells[1].textContent.toLowerCase();
+            const moTa = row.cells[2].textContent.toLowerCase();
+            const gia = parseInt(row.cells[3].textContent) || 0;
+
+            const matchKeyword = tenDV.includes(keyword) || moTa.includes(keyword);
+            const matchPrice = gia >= minPrice && gia <= maxPrice;
+
+            row.style.display = (matchKeyword && matchPrice) ? "" : "none";
+        });
+    }
+</script>
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -25,7 +72,19 @@
                 <td>@item.TenDV</td>
                 <td>@item.Mota</td>
                 <td>@item.Gia</td>
-                <td><img src="@item.AnhDichVu" alt="Ảnh" style="width:100px;" /></td>
+                <td>
+                    @if (@item.AnhDichVu == null)
+                    {
+                        <p>chưa cài đặt ảnh đại diện</p>
+                    }
+                    else
+                    {
+                        <img style="max-width: 100px; max-height: 100px; width: auto; height: auto;"
+                             src="@Url.Content("~/Images/DichVu/" + item.AnhDichVu)" @* <<< SỬA Ở ĐÂY *@
+                             alt="Ảnh cho @item.TenDV" />
+
+                    }
+                </td>
                 <td>
                     <a href="@Url.Action("SuaDichVu", new { id = item.MaDV })" class="btn btn-primary">Sửa</a>
                     <a href="@Url.Action("XoaDichVu", new { id = item.MaDV })" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn xóa không?')">Xóa</a>
@@ -118,5 +177,240 @@
         margin-top: 20px;
         text-align: center;
     }
+    /* Table Styling - Enhanced */
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-family: 'Arial', sans-serif;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e0e0e0;
+    }
 
+        .table th, .table td {
+            padding: 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+            vertical-align: middle;
+        }
+
+        .table th {
+            background-color: #343a40;
+            color: white;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            font-size: 15px;
+            text-transform: uppercase;
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .table tbody tr:hover {
+            background-color: #e2f0fb;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Table Cell Content */
+        .table td:nth-child(1) { /* MaDV column */
+            font-weight: bold;
+            color: #0066cc;
+        }
+
+        .table td:nth-child(2) { /* TenDV column */
+            font-weight: 600;
+            color: #333;
+        }
+
+        .table td:nth-child(4) { /* Gia column */
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        /* Image Styling - Enhanced */
+        .table img {
+            width: 100px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid #eaeaea;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+            .table img:hover {
+                transform: scale(1.1);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            }
+
+    /* Button Styling - Enhanced */
+    .btn {
+        padding: 10px 18px;
+        font-size: 14px;
+        text-decoration: none;
+        border-radius: 5px;
+        margin: 5px 5px 5px 0;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-block;
+        border: none;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+        box-shadow: 0 2px 5px rgba(0, 123, 255, 0.3);
+    }
+
+        .btn-primary:hover {
+            background-color: #0069d9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.5);
+        }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: white;
+        box-shadow: 0 2px 5px rgba(220, 53, 69, 0.3);
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(220, 53, 69, 0.5);
+        }
+
+    .btn-success {
+        background-color: #28a745;
+        color: white;
+        box-shadow: 0 2px 5px rgba(40, 167, 69, 0.3);
+        padding: 12px 24px;
+        font-size: 16px;
+    }
+
+        .btn-success:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(40, 167, 69, 0.5);
+        }
+
+    /* Table Header and Footer */
+    thead {
+        border-bottom: 3px solid #007bff;
+    }
+
+    /* Container styling */
+    .container {
+        padding: 30px;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Page title */
+    h2, h3 {
+        color: #333;
+        margin-bottom: 25px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #f0f0f0;
+        font-weight: 600;
+    }
+
+    /* Action buttons container */
+    .action-buttons {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    /* Highlight row on hover */
+    .table tr {
+        transition: all 0.2s ease;
+    }
+
+    /* Add icon to buttons with Font Awesome (if available) */
+    .btn-primary:before {
+        content: "✏️ ";
+    }
+
+    .btn-danger:before {
+        content: "🗑️ ";
+    }
+
+    .btn-success:before {
+        content: "➕ ";
+    }
+
+    /* No data message */
+    .no-data {
+        text-align: center;
+        padding: 30px;
+        font-style: italic;
+        color: #888;
+    }
+
+    /* Table wrapper for potential scrolling */
+    .table-wrapper {
+        overflow-x: auto;
+        margin-bottom: 30px;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+    }
+
+
+
+    /* Header area styling */
+    .page-header {
+        margin-bottom: 30px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+        .page-header h1 {
+            font-size: 24px;
+            color: #333;
+            margin: 0;
+        }
+
+    /* Confirmation dialog styling */
+    .ui-dialog {
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .ui-dialog-titlebar {
+        background-color: #343a40;
+        color: white;
+        border-radius: 8px 8px 0 0;
+    }
+
+    .ui-dialog-buttonpane {
+        border-top: 1px solid #eee;
+        padding: 15px;
+    }
+
+    /* Custom button for important actions */
+    .btn-feature {
+        background: linear-gradient(135deg, #6e8efb, #4a6cf7);
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 5px;
+        font-weight: bold;
+        letter-spacing: 0.5px;
+        box-shadow: 0 4px 15px rgba(74, 108, 247, 0.4);
+        transition: all 0.3s ease;
+    }
+
+        .btn-feature:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(74, 108, 247, 0.6);
+        }
 </style>

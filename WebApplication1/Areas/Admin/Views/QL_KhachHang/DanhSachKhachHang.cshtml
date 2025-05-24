@@ -57,7 +57,6 @@
                 {
                     <img style="max-width: 150px; max-height: 150px; width: auto; height: auto;"
                          src="~/Images/@Html.DisplayFor(modelItem => item.Avatar)" />
-
                 }
             </td>
             <td>
@@ -77,5 +76,392 @@
     }
 </table>
 <style>
+    /* Main Table Styling */
+    .table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin: 30px 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+        background-color: #ffffff;
+        border: 1px solid #e6e6e6;
+    }
 
+        /* Table Header */
+        .table th {
+            background: linear-gradient(to right, #3a7bd5, #00d2ff);
+            color: white;
+            text-transform: uppercase;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 16px 15px;
+            letter-spacing: 0.8px;
+            text-align: left;
+            border: none;
+            position: relative;
+            vertical-align: middle;
+        }
+
+            .table th:after {
+                content: '';
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                height: 3px;
+                background-color: rgba(255, 255, 255, 0.2);
+            }
+
+        /* Table Body Rows */
+        .table tr {
+            transition: all 0.3s ease;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+            .table tr:last-child {
+                border-bottom: none;
+            }
+
+            .table tr:hover {
+                background-color: #f8fdff;
+                box-shadow: 0 3px 12px rgba(58, 123, 213, 0.1);
+                transform: translateY(-2px);
+                cursor: pointer;
+            }
+
+        /* Table Cells */
+        .table td {
+            padding: 16px 15px;
+            vertical-align: middle;
+            color: #505050;
+            font-size: 14px;
+            border-top: none;
+            border-right: 1px solid #f0f0f0;
+        }
+
+            .table td:last-child {
+                border-right: none;
+            }
+
+        /* Zebra Striping */
+        .table tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+
+        /* MaKH Column */
+        .table td:first-child {
+            font-weight: 600;
+            color: #3a7bd5;
+            font-size: 15px;
+        }
+
+        /* HoTen Column */
+        .table td:nth-child(2) {
+            font-weight: 600;
+            color: #333;
+            font-size: 15px;
+        }
+
+        /* DienThoai Column */
+        .table td:nth-child(4) {
+            font-family: 'Consolas', monospace;
+            color: #0066cc;
+            letter-spacing: 0.5px;
+        }
+
+        /* GioiTinh Column */
+        .table td:nth-child(5) {
+            text-align: center;
+        }
+
+        /* Avatar Column */
+        .table td:nth-child(6) {
+            text-align: center;
+        }
+
+            .table td:nth-child(6) img {
+                max-width: 100px;
+                max-height: 100px;
+                object-fit: cover;
+                border-radius: 8px;
+                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+                border: 3px solid #fff;
+                transition: all 0.3s ease;
+            }
+
+                .table td:nth-child(6) img:hover {
+                    transform: scale(1.1);
+                    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+                }
+
+            .table td:nth-child(6) p {
+                font-style: italic;
+                color: #999;
+                margin: 0;
+            }
+
+        /* Action Buttons Column */
+        .table td:last-child {
+            min-width: 220px;
+        }
+
+    /* Buttons Styling */
+    .btn {
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        margin-right: 5px;
+        margin-bottom: 5px;
+        border: none;
+        cursor: pointer;
+        display: inline-block;
+        text-decoration: none;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+    .btn-primary {
+        background: linear-gradient(to right, #4a7edc, #3a7bd5);
+        color: white;
+    }
+
+        .btn-primary:hover {
+            background: linear-gradient(to right, #3a7bd5, #2b6fc8);
+        }
+
+    .btn-info {
+        background: linear-gradient(to right, #2dceff, #00d2ff);
+        color: white;
+    }
+
+        .btn-info:hover {
+            background: linear-gradient(to right, #00d2ff, #00c3e9);
+        }
+
+    .btn-danger {
+        background: linear-gradient(to right, #ff5e62, #ff2a68);
+        color: white;
+    }
+
+        .btn-danger:hover {
+            background: linear-gradient(to right, #ff2a68, #e61e5a);
+        }
+
+    /* Page Title */
+    h2 {
+        color: #333;
+        font-size: 28px;
+        font-weight: 600;
+        margin-bottom: 30px;
+        position: relative;
+        padding-bottom: 15px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, #3a7bd5, #00d2ff);
+            border-radius: 2px;
+        }
+
+    /* Custom Styling for No Avatar Message */
+    .table td:nth-child(6) p {
+        background-color: #f8f9fa;
+        border-radius: 4px;
+        padding: 6px 10px;
+        display: inline-block;
+        border: 1px dashed #ddd;
+    }
+
+    /* History Button Styling */
+    td a.btn-info:last-child {
+        background: linear-gradient(to right, #c471ed, #8e54e9);
+        margin-top: 8px;
+    }
+
+        td a.btn-info:last-child:hover {
+            background: linear-gradient(to right, #8e54e9, #7843d2);
+        }
+
+    /* Main Page Container */
+    body {
+        background-color: #f9fafb;
+        padding: 20px;
+    }
+
+    /* Table Top-Bottom Space */
+    .table {
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+
+    /* Separator Vertical Line */
+    td span {
+        display: inline-block;
+        color: #ddd;
+        font-weight: bold;
+        margin: 0 10px;
+    }
+
+    /* Custom Icons For Buttons (using Unicode characters) */
+    .btn-primary:before {
+        content: "✏️ ";
+    }
+
+    .btn-info:first-of-type:before {
+        content: "ℹ️ ";
+    }
+
+    .btn-danger:before {
+        content: "🗑️ ";
+    }
+
+    td a.btn-info:last-child:before {
+        content: "🕒 ";
+    }
+
+    /* Enhanced Row Hover Effect */
+    .table tr:hover td {
+        background-color: rgba(58, 123, 213, 0.03);
+    }
+
+    /* Button Container */
+    td p {
+        margin-bottom: 8px;
+    }
+
+    /* No Records Message */
+    .table tr.no-records td {
+        text-align: center;
+        padding: 30px;
+        font-style: italic;
+        color: #999;
+    }
+
+    /* Table Header First-Last Special Styling */
+    .table th:first-child {
+        border-top-left-radius: 8px;
+    }
+
+    .table th:last-child {
+        border-top-right-radius: 8px;
+    }
+
+    /* Table Cell Content Overflow Handling */
+    .table td {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 250px;
+    }
+
+        /* DiaChi Column - Special Treatment for Long Text */
+        .table td:nth-child(3) {
+            max-width: 200px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Gender Icons */
+        .table td:nth-child(5):contains('Nam'):before {
+            content: '👨 ';
+        }
+
+        .table td:nth-child(5):contains('Nữ'):before {
+            content: '👩 ';
+        }
+
+    /* Table Wrapper For Shadow Effect */
+    .table-wrapper {
+        position: relative;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    /* Add New Button (Style for future implementation) */
+    .add-new-button {
+        background: linear-gradient(to right, #11998e, #38ef7d);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 6px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        text-decoration: none;
+        display: inline-block;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 10px rgba(56, 239, 125, 0.3);
+        transition: all 0.3s ease;
+        border: none;
+    }
+
+        .add-new-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(56, 239, 125, 0.4);
+        }
+
+        .add-new-button:before {
+            content: "➕ ";
+        }
+
+    /* Custom Text Styling */
+    .table td.empty-avatar {
+        color: #999;
+        font-style: italic;
+    }
+
+    /* Page Header Area */
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+
+    /* Custom Badges for Status (if needed) */
+    .badge {
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+    .badge-active {
+        background-color: #dff7e8;
+        color: #0cad55;
+    }
+
+    .badge-inactive {
+        background-color: #fbe7e8;
+        color: #fc4b51;
+    }
+
+    /* Table Row Active State */
+    .table tr.active-row {
+        background-color: #f0f7ff;
+    }
+
+    /* Focus Effect for Buttons */
+    .btn:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(58, 123, 213, 0.3);
+    }
 </style>

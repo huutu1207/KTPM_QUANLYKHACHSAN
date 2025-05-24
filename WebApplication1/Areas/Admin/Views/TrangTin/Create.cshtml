@@ -50,4 +50,343 @@
         </div>
     </div>
 }
+<style>
+    /* Main Container Styling */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
 
+    /* Page Title Styling */
+    h2 {
+        font-size: 28px;
+        font-weight: 700;
+        color: #2c3e50;
+        margin: 30px 0 20px;
+        padding-bottom: 15px;
+        position: relative;
+        letter-spacing: 0.5px;
+    }
+
+        h2:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(to right, #3498db, #9b59b6);
+            border-radius: 3px;
+        }
+
+    /* Form Container */
+    .form-horizontal {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        margin-bottom: 40px;
+        border: 1px solid #edf2f7;
+    }
+
+    /* Form Title */
+    h4 {
+        font-size: 20px;
+        font-weight: 600;
+        color: #34495e;
+        margin-bottom: 20px;
+        padding: 10px 15px;
+        background-color: #f7fafc;
+        border-radius: 8px;
+        border-left: 4px solid #3498db;
+        display: inline-block;
+    }
+
+    /* Divider */
+    hr {
+        border: 0;
+        height: 1px;
+        background: linear-gradient(to right, rgba(52, 152, 219, 0.1), rgba(52, 152, 219, 0.5), rgba(52, 152, 219, 0.1));
+        margin: 20px 0 30px;
+    }
+
+    /* Validation Summary */
+    .text-danger {
+        color: #e74c3c;
+        font-size: 14px;
+        margin-top: 5px;
+        display: block;
+    }
+
+    .validation-summary-errors {
+        background-color: #fdecec;
+        border: 1px solid #e74c3c;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 25px;
+        color: #c0392b;
+    }
+
+        .validation-summary-errors ul {
+            list-style-type: none;
+            padding-left: 10px;
+            margin: 5px 0 0;
+        }
+
+    /* Form Group */
+    .form-group {
+        margin-bottom: 25px;
+        position: relative;
+    }
+
+    /* Label Styling */
+    .control-label {
+        font-weight: 600;
+        color: #34495e;
+        margin-bottom: 10px;
+        display: block;
+        font-size: 15px;
+    }
+
+    /* Column Layout */
+    .col-md-2 {
+        width: 16.6667%;
+        float: left;
+        padding-right: 15px;
+        box-sizing: border-box;
+    }
+
+    .col-md-10 {
+        width: 83.3333%;
+        float: left;
+        padding-left: 15px;
+        box-sizing: border-box;
+    }
+
+    .col-md-offset-2 {
+        margin-left: 16.6667%;
+    }
+
+    /* Clear fix for floating elements */
+    .form-group:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    /* Form Control */
+    .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #dce4ec;
+        border-radius: 6px;
+        font-size: 15px;
+        color: #2c3e50;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        box-sizing: border-box;
+    }
+
+        .form-control:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25);
+        }
+
+    /* CKEditor Container */
+    #cke_noidung {
+        margin-bottom: 25px;
+        border: 1px solid #dce4ec !important;
+        border-radius: 6px;
+        overflow: hidden;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Buttons Container */
+    .form-buttons {
+        margin-top: 35px;
+        padding-top: 25px;
+        border-top: 1px solid #edf2f7;
+        text-align: right;
+    }
+
+    /* Primary Button */
+    .btn-primary {
+        background: linear-gradient(to right, #3498db, #2980b9);
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        font-size: 15px;
+        font-weight: 600;
+        border-radius: 6px;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+        transition: all 0.3s ease;
+        margin-right: 10px;
+    }
+
+        .btn-primary:hover {
+            background: linear-gradient(to right, #2980b9, #2573a7);
+            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 5px rgba(52, 152, 219, 0.3);
+        }
+
+    /* Secondary Button */
+    .btn-secondary {
+        background: #ecf0f1;
+        color: #34495e;
+        border: 1px solid #bdc3c7;
+        padding: 12px 25px;
+        font-size: 15px;
+        font-weight: 600;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        .btn-secondary:hover {
+            background: #e0e6e8;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary:active {
+            transform: translateY(1px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Focus states for buttons */
+        .btn-primary:focus,
+        .btn-secondary:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+        }
+
+    /* Form Validation Styles */
+    .input-validation-error {
+        border-color: #e74c3c !important;
+        background-color: #fff8f8;
+    }
+
+    .field-validation-error {
+        color: #e74c3c;
+        font-size: 13px;
+        margin-top: 5px;
+        display: block;
+    }
+
+    /* Required Field Indicator */
+    .required:after {
+        content: "*";
+        color: #e74c3c;
+        margin-left: 5px;
+    }
+
+    /* Extra spacing for textarea group */
+    .form-group:nth-child(4) {
+        margin-top: 35px;
+        margin-bottom: 35px;
+    }
+
+    /* CKEditor styling enhancements */
+    .cke_chrome {
+        border-color: #dce4ec !important;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05) !important;
+    }
+
+    .cke_top {
+        background: #f7fafc !important;
+        border-bottom: 1px solid #dce4ec !important;
+    }
+
+    .cke_bottom {
+        background: #f7fafc !important;
+        border-top: 1px solid #dce4ec !important;
+    }
+
+    /* Helper Text */
+    .form-text {
+        color: #7f8c8d;
+        font-size: 13px;
+        margin-top: 5px;
+    }
+
+    /* Label for required fields */
+    .required-label {
+        display: block;
+        font-size: 13px;
+        color: #7f8c8d;
+        font-style: italic;
+        margin-bottom: 25px;
+    }
+
+        .required-label span {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+    /* Success message */
+    .form-success {
+        background-color: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 25px;
+    }
+
+    /* Metadata Field Styling */
+    .metadata-field {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 6px;
+        margin-top: 15px;
+        border: 1px dashed #dce4ec;
+    }
+
+        .metadata-field .form-control {
+            background-color: #fff;
+        }
+
+    /* Info tooltip */
+    .info-tooltip {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        background-color: #3498db;
+        color: white;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 18px;
+        font-size: 12px;
+        margin-left: 5px;
+        cursor: help;
+    }
+
+    /* Tooltip content */
+    .tooltip-content {
+        position: absolute;
+        top: 0;
+        left: 100%;
+        width: 200px;
+        padding: 10px;
+        background-color: #34495e;
+        color: white;
+        border-radius: 6px;
+        font-size: 12px;
+        z-index: 10;
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .info-tooltip:hover + .tooltip-content {
+        visibility: visible;
+        opacity: 1;
+    }
+</style>

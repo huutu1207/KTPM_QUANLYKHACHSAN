@@ -31,7 +31,7 @@ namespace WebApplication1.Controllers
                 ViewBag.Password = Request.Cookies["Password"].Value;
             }
 
-            var clientId = "236329445042-ao0n55mptkk6fftaeu8mactg13feu683.apps.googleusercontent.com";
+            var clientId = "714205971010-s2197pqs6q6j6uujjqnqan8em03m8fdv.apps.googleusercontent.com";
             var url = "https://localhost:44354/User/LoginGoogle";  // Đảm bảo URL này là chính xác.
             string response = GenerateGoogleOAuthUrl(clientId, url);
             ViewBag.response = response;
@@ -126,8 +126,8 @@ namespace WebApplication1.Controllers
         public async Task<ActionResult> LoginGoogle(string code, string scope, string authuser, string prompt)
         {
             string redirectUri = "https://localhost:44354/User/LoginGoogle";
-            var clientID = "236329445042-ao0n55mptkk6fftaeu8mactg13feu683.apps.googleusercontent.com";
-            var clientSecret = "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";
+            var clientID = "714205971010-s2197pqs6q6j6uujjqnqan8em03m8fdv.apps.googleusercontent.com";
+            var clientSecret = "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";
 
             if (string.IsNullOrEmpty(code))
             {
@@ -358,9 +358,9 @@ namespace WebApplication1.Controllers
         {
             try
             {
-                var fromAddress = new MailAddress("2224802010314@student.tdmu.edu.vn", "Lucky Hotel");
+                var fromAddress = new MailAddress("2224802010236@student.tdmu.edu.vn", "Lucky Hotel");
                 var toAddress = new MailAddress(emailNguoiDung);
-                const string fromPassword = "hbpk bhtz zvic aysp";
+                const string fromPassword = "iyko turm hvuq ybmn";
                 const string subject = "Xác nhận email";
 
                 string body = $"<h3>Chào bạn!</h3>" +
@@ -548,11 +548,12 @@ namespace WebApplication1.Controllers
                     {
                         MaDatPhong = m.MaDatPhong,
                         TenPhong = m.TenPhong,
-                        NgayDat = m.NgayDat.Value.ToString("dd/MM/yyyy"),
-                        NgayNhan = m.NgayNhan.Value.ToString("dd/MM/yyyy"),
-                        NgayTra = m.NgayTra.Value.ToString("dd/MM/yyyy"),
-                        ThanhTien = m.ThanhTien,
-                        CoTheHuy = m.NgayNhan > dateHomNay ? true : false
+                        NgayDat = m.NgayDat.HasValue ? m.NgayDat.Value.ToString("dd/MM/yyyy") : "",
+                        NgayNhan = m.NgayNhan.HasValue ? m.NgayNhan.Value.ToString("dd/MM/yyyy") : "",
+                        NgayTra = m.NgayTra.HasValue ? m.NgayTra.Value.ToString("dd/MM/yyyy") : "",
+                        ThanhTien = m.ThanhTien ?? 0, 
+                        CoTheHuy = m.NgayNhan.HasValue && m.NgayNhan > dateHomNay ? true : false
+
                     }
                 ).ToList();
             return View(lst);
@@ -755,12 +756,12 @@ namespace WebApplication1.Controllers
             try
             {
                 // Địa chỉ email gửi
-                var fromAddress = new MailAddress("2224802010314@student.tdmu.edu.vn", "Lucky Hotel");
+                var fromAddress = new MailAddress("2224802010236@student.tdmu.edu.vn", "Lucky Hotel");
 
                 // Địa chỉ email nhận
                 var toAddress = new MailAddress(emailNguoiDung);
 
-                const string fromPassword = "hbpk bhtz zvic aysp";
+                const string fromPassword = "iyko turm hvuq ybmn";
                 const string subject = "Mã xác nhận đặt lại mật khẩu";
 
                 string body =$"<p>Mã xác nhận của bạn để đặt lại mật khẩu là: <strong>{verificationCode}</strong></p>" +
